@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Meus Direitos</string>
+    <string name="nome_do_advogado">Nome do Advogado</string>
+    <string name="area_de_atuacao">Area de Atuacao</string>
+
+    <string-array name="areas_atuacao">
+        <item>Todas as áreas</item>
+        <item>Penal</item>
+        <item>Empresarial</item>
+        <item>Consumidor</item>
+        <item>Trabalhista</item>
+        <item>Ambiental</item>
+        <item>Civil</item>
+        <item>TI</item>
+        <item>Contratual</item>
+        <item>Tributário</item>
+    </string-array>
+
+</resources>

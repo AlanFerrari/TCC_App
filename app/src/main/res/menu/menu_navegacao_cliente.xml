@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Advogados"
+        android:id="@+id/advogados"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_account_box"
+        android:iconTint="@color/cinza"
+        android:contentDescription="Perfil do advogado"
+        app:showAsAction="always"/>
+
+    <item
+        android:title="Informações"
+        android:id="@+id/informacoes"
+        android:orderInCategory="200"
+        android:contentDescription="Informações do app"
+        android:icon="@drawable/ic_baseline_info"
+        android:iconTint="@color/cinza"
+        app:showAsAction="always"/>
+
+</menu>

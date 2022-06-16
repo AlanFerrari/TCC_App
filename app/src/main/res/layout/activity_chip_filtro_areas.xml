@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cor_fundo"
+    android:orientation="vertical"
+    tools:context=".Chip_filtro_areas">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/cor_fundo"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Seu cadastro está quase completo"
+            android:textColor="@color/verde"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Selecione as áreas do direitos"
+            android:textColor="@color/dourado"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="que você atua"
+            android:textColor="@color/dourado"
+            android:textSize="18dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCivil"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Civil"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipConsumidor"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consumidor"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTrabalhista"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trabalhista"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEmpresarial"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Empresarial"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPenal"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Penal"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAmbiental"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ambiental"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipContratual"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contratual"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTributário"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tributário"
+                android:textSize="18dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTI"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TI"
+                android:textSize="18dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Escreva uma bibliografia sobre"
+            android:textColor="@color/dourado"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="você e a área que atua"
+            android:textColor="@color/dourado"
+            android:textSize="18dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:lines="7"
+            android:maxLines="9"
+            android:gravity="top"
+            android:padding="10dp"
+            android:background="@drawable/borda" />
+
+        <Button
+            android:id="@+id/btnEnviarAreas"
+            style="@style/Button"
+            android:background="@drawable/botao_redondo"
+            android:text="Enviar"
+            android:textAllCaps="false"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>
