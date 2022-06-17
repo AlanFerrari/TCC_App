@@ -2,6 +2,9 @@
     <string name="app_name">Meus Direitos</string>
     <string name="nome_do_advogado">Nome do Advogado</string>
     <string name="area_de_atuacao">Area de Atuacao</string>
+    <string name="bem_vindo">Bem Vindo!</string>
+    <string name="aqui_voc_pode_buscar_por_ajuda_na_rea_jur_dica_contactando_um_a_advogado_a">Aqui você pode buscar por ajuda na área jurídica contactando um(a) advogado(a).</string>
+    <string name="imagem_do_aplicativo_meus_direitos">imagem do aplicativo meus direitos</string>
 
     <string-array name="areas_atuacao">
         <item>Todas as áreas</item>

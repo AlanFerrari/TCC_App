@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
+        android:contentDescription="@string/imagem_do_aplicativo_meus_direitos"
         android:background="@drawable/logo" />
 
     <TextView
@@ -20,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center_horizontal"
-        android:text="Bem Vindo!"
+        android:text="@string/bem_vindo"
         android:textColor="#008290"
-        android:textSize="32dp" />
+        android:textSize="32sp" />
 
     <ProgressBar
         android:id="@+id/carregando"
@@ -40,8 +41,8 @@
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:text="Aqui você pode buscar por ajuda na área jurídica contactando um(a) advogado(a)."
-        android:textColor="#B58D1F"
-        android:textSize="20dp" />
+        android:text="@string/aqui_voc_pode_buscar_por_ajuda_na_rea_jur_dica_contactando_um_a_advogado_a"
+        android:textColor="@color/dourado"
+        android:textSize="20sp" />
 
 </LinearLayout>
