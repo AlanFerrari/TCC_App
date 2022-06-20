@@ -15,14 +15,26 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import br.com.etecia.meus_direitos.objetos.API_IBGE;
@@ -34,11 +46,14 @@ import br.com.etecia.meus_direitos.objetos.Subdistritos;
 public class ListaAdvogados extends AppCompatActivity {
 
     MaterialToolbar toolbar;
-    ArrayList<Advogados> lstAdvogados;
     Spinner spinnerAreas, spinnerEstados, spinnerCidades, spinnerSubdistritos;
     ImageView filtro;
-    CardView cardViewFiltro;
+    CardView cardViewFiltro, cardViewAdvogados;
+    RecyclerAdapter mAdapter;
+    Advogados advogados;
+    List<Advogados> advogadosList;
 
+    String url = "https://appmeusdireitos.000webhostapp.com/PegaDados.php";
     Cidades[] municipios = null;
 
     @Override
@@ -56,6 +71,12 @@ public class ListaAdvogados extends AppCompatActivity {
 
         filtro = findViewById(R.id.filtrar);
         cardViewFiltro = findViewById(R.id.cardFiltro);
+
+        //Colocando os dados do advogados na lista do cardview
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view_lista);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), advogadosList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        mRecyclerView.setAdapter(mAdapter);
 
         //Criando um array de areas de trabalho no spinner
         ArrayAdapter<CharSequence> adapterAreas = ArrayAdapter.createFromResource(this, R.array.areas_atuacao, android.R.layout.simple_spinner_item);
@@ -178,19 +199,58 @@ public class ListaAdvogados extends AppCompatActivity {
             }
         });
 
-        lstAdvogados = new ArrayList<>();
+        getData();
+    }
 
-        lstAdvogados.add(new Advogados(R.drawable.exemplo, "Luis Abelardo Pachoal da Costa", "São Paulo", "SP", "Direito Civil, Direito do Consumidor e Direito Trabalhista"));
+    private void getData() {
 
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view_lista);
-        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), lstAdvogados);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                advogadosList.clear();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    String sucesso = jsonObject.getString("Sucesso");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (sucesso.equals("1")){
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            int imagem = Integer.parseInt(object.getString("imagem"));
+                            String nomeAdvogado = object.getString("nomeAdvogado");
+                            String estado = object.getString("estado");
+                            String cidade = object.getString("cidade");
+                            String areaAtuacao = object.getString("areaAtuacao");
 
 
 
+                            advogados = new Advogados(id, imagem, nomeAdvogado, estado, cidade, areaAtuacao);
+                            advogadosList.add(advogados);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
 
+                }catch (Exception e){
+
+                }
+
+                //Toast.makeText(ListaAdvogados.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(ListaAdvogados.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ListaAdvogados.this);
+        requestQueue.add(request);
     }
 
     @Override

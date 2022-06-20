@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="você e a área que atua"
+            android:text="você e a(s) área(s) que atua"
             android:textColor="@color/dourado"
             android:textSize="18dp" />
 

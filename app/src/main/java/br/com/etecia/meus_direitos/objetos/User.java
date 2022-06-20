@@ -4,21 +4,22 @@ public class User {
     private int id;
     private String usuario;
     private String email;
-    private String cidade;
+    private String telefone;
     private String estado;
-    private String numero_oab;
-    private String telefone_cel;
+    private String cidade;
+    private String numeroOAB;
 
+    public User() {
+    }
 
-
-    public User(int id, String usuario, String email, String cidade, String estado, String numero_oab, String telefone_cel ) {
+    public User(int id, String usuario, String email, String telefone, String estado, String cidade, String numeroOAB) {
         this.id = id;
         this.usuario = usuario;
         this.email = email;
-        this.cidade = cidade;
+        this.telefone = telefone;
         this.estado = estado;
-        this.numero_oab = numero_oab;
-        this.telefone_cel = telefone_cel;
+        this.cidade = cidade;
+        this.numeroOAB = numeroOAB;
     }
 
     public int getId() {
@@ -45,12 +46,12 @@ public class User {
         this.email = email;
     }
 
-    public String getCidade() {
-        return cidade;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getEstado() {
@@ -61,19 +62,19 @@ public class User {
         this.estado = estado;
     }
 
-    public String getNumero_oab() {
-        return numero_oab;
+    public String getCidade() {
+        return cidade;
     }
 
-    public void setNumero_oab(String numero_oab) {
-        this.numero_oab = numero_oab;
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
-    public String getTelefone_cel() {
-        return telefone_cel;
+    public String getNumeroOAB() {
+        return numeroOAB;
     }
 
-    public void setTelefone_cel(String telefone_cel) {
-        this.telefone_cel = telefone_cel;
+    public void setNumeroOAB(String numeroOAB) {
+        this.numeroOAB = numeroOAB;
     }
 }

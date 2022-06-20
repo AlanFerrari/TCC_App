@@ -12,8 +12,6 @@ import br.com.etecia.meus_direitos.ListaAdvogados;
 
 public class API_IBGE extends AsyncTask<String, Void, String> {
 
-    ListaAdvogados listaAdvogados = new ListaAdvogados();
-
     @Override
     protected String doInBackground(String... params) {
 

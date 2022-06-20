@@ -32,17 +32,9 @@ import br.com.etecia.meus_direitos.objetos.User;
 
 public class CadastroAdvogado extends AppCompatActivity {
 
-    Button btnCadastrarAdvogado;
-    ImageView voltar;
-    EditText edtNomeAdvogado;
-    EditText edtEmail;
-    EditText edtTelefone;
-    EditText edtCidade;
-    EditText edtEstado;
-    EditText edtRegistroOAB;
-    EditText edtSenha;
-    String url = "";
-
+    private Button btnCadastrarAdvogado;
+    private ImageView voltar;
+    private EditText edtNomeAdvogado, edtEmail, edtTelefone, edtCidade, edtEstado, edtRegistroOAB, edtSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,58 +63,54 @@ public class CadastroAdvogado extends AppCompatActivity {
         btnCadastrarAdvogado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                registerUser();
 
-                String nome = edtNomeAdvogado.getText().toString();
-                String email = edtEmail.getText().toString();
-                String telefone = edtTelefone.getText().toString();
-                String cidade = edtCidade.getText().toString();
-                String estado = edtEstado.getText().toString();
-                String registroOAB = edtRegistroOAB.getText().toString();
-                String senha = edtSenha.getText().toString();
-
-                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        edtNomeAdvogado.setText("");
-                        edtEmail.setText("");
-                        edtTelefone.setText("");
-                        edtCidade.setText("");
-                        edtEstado.setText("");
-                        edtRegistroOAB.setText("");
-                        edtSenha.setText("");
-
-                        Toast.makeText(CadastroAdvogado.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(CadastroAdvogado.this, error.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                }){
-
-                    @Nullable
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-                        Map<String, String> param = new HashMap<String, String>();
-
-                        param.put("nome", nome);
-                        param.put("email", email);
-                        param.put("telefone", telefone);
-                        param.put("cidade", cidade);
-                        param.put("estado", estado);
-                        param.put("registroOAB", registroOAB);
-                        param.put("senha", senha);
-
-                        return param;
-                    }
-                };
-
-                RequestQueue requestQueue = Volley.newRequestQueue(CadastroAdvogado.this);
-                requestQueue.add(request);
             }
         });
+    }
+
+    private void registerUser() {
+        final String nome = edtNomeAdvogado.getText().toString().trim();
+        final String email = edtEmail.getText().toString().trim();
+        final String telefone = edtTelefone.getText().toString().trim();
+        final String estado = edtEstado.getText().toString().trim();
+        final String cidade = edtCidade.getText().toString().trim();
+        final String registroOAB = edtRegistroOAB.getText().toString().trim();
+        final String senha = edtSenha.getText().toString().trim();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_REGISTER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("nome", nome);
+                params.put("email", email);
+                params.put("telefone", telefone);
+                params.put("estado", estado);
+                params.put("cidade", cidade);
+                params.put("registroOAB", registroOAB);
+                params.put("senha", senha);
+
+                return params;
+            }
+        };
+
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
     }
 }
