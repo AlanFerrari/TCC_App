@@ -13,11 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Meus_Direitos">
         <activity
-            android:name=".EditarPerfil"
-            android:exported="false" />
-        <activity
             android:name=".Perfil_Advogados_Cli"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Chip_filtro_areas"
             android:exported="true" />
@@ -62,7 +59,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

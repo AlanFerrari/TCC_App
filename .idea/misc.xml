@@ -3,16 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC---App/app/src/main/res/layout/activity_entrar_como.xml" value="0.17617753623188406" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC---App/app/src/main/res/layout/activity_splash.xml" value="0.18" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/drawable/borda.xml" value="0.1995" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.21851851851851853" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_chip_filtro_areas.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_editar_perfil.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_lista_advogados.xml" value="0.24791666666666667" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_login.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_perfil_advogado_adv.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/modelo_lista_advogado.xml" value="0.24791666666666667" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/layout/activity_editar_perfil.xml" value="0.1" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/bookshelf.xml" value="0.1" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/borda.xml" value="0.2065" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/cor_fundo.xml" value="0.14" />
@@ -47,7 +38,6 @@
         <entry key="..\:/Users/Laboratorio-Info/Downloads/Meus_Direitos/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/Meus_Direitos/app/src/main/res/layout/modelo_area_atuacao.xml" value="0.25" />
         <entry key="..\:/Users/Laboratorio-Info/Downloads/Meus_Direitos/app/src/main/res/layout/modelo_lista_advogado.xml" value="0.25" />
-        <entry key="..\:/Users/Laboratorio-Info/Downloads/TCC - App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.12" />
         <entry key="..\:/Users/Windows 10/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable-v24/style_spinner_up.xml" value="0.1525" />
         <entry key="..\:/Users/Windows 10/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/account_tie.xml" value="0.1565" />
         <entry key="..\:/Users/Windows 10/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/borda.xml" value="0.159" />

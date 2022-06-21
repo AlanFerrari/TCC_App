@@ -107,21 +107,21 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                         //pega o usuário da resposta
-                        JSONObject userJson = obj.getJSONObject("usuario");
+                        JSONObject userJson = obj.getJSONObject("user");
 
                         //criando um novo objeto de usuário
-                        User usuario = new User(
+                        User user = new User(
                                 userJson.getInt("id"),
                                 userJson.getString("usuario"),
                                 userJson.getString("email"),
-                                userJson.getString("telefone"),
                                 userJson.getString("cidade"),
                                 userJson.getString("estado"),
-                                userJson.getString("numeroOAB")
+                                userJson.getString("numero_oab"),
+                                userJson.getString("telefone_cel")
                         );
 
                         //armazenando o usuário nas preferências compartilhadas
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(usuario);
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
                         //iniciando a atividade do perfil
                         startActivity(new Intent(getApplicationContext(), PerfilAdvogado_Adv.class));

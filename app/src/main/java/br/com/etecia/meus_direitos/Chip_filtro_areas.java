@@ -64,9 +64,10 @@ public class Chip_filtro_areas extends AppCompatActivity {
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
                 intent.putExtra("areas", selectedChipData.toString());
                 setResult(101, intent);
+                startActivity(intent);
                 finish();
             }
         });

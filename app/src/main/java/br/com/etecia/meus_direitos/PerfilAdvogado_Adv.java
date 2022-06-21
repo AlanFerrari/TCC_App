@@ -46,15 +46,15 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
         txtRegistro = findViewById(R.id.registroOAB);
         EditarPerfil = findViewById(R.id.btnEditarPerfil);
 
-        User usuario = SharedPrefManager.getInstance(this).getUser();
+        User user = SharedPrefManager.getInstance(this).getUser();
 
 
-        txtNomeAdvogado.setText(usuario.getUsuario());
-        txtEmail.setText(usuario.getEmail());
-        txtTelefone.setText(usuario.getTelefone());
-        txtCidade.setText(usuario.getCidade());
-        txtEstado.setText(usuario.getEstado());
-        txtRegistro.setText(usuario.getNumeroOAB());
+        txtNomeAdvogado.setText(user.getUsuario());
+        txtEmail.setText(user.getEmail());
+        txtTelefone.setText(user.getTelefone());
+        txtCidade.setText(user.getCidade());
+        txtEstado.setText(user.getEstado());
+        txtRegistro.setText(user.getNumeroOAB());
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
@@ -71,21 +71,10 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
                 finish();
             }
         });
 
-        EditarPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfil.class);
-
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -102,7 +91,7 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.informacoes:
-                Intent intent2 = new Intent(this, InformacoesAdv.class);
+                Intent intent2 = new Intent(this, InformacoesCli.class);
                 startActivity(intent2);
                 break;
         }

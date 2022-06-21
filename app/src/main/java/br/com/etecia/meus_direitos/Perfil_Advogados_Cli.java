@@ -41,16 +41,16 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
 
         txtNomeAdvogado.setText(user.getUsuario());
         txtEmail.setText(user.getEmail());
-        txtTelefone.setText(user.getTelefone_cel());
+        txtTelefone.setText(user.getTelefone());
         txtCidade.setText(user.getCidade());
         txtEstado.setText(user.getEstado());
-        txtRegistro.setText(user.getNumero_oab());
+        txtRegistro.setText(user.getNumeroOAB());
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+            Intent intent = new Intent(getApplicationContext(), Perfil_Advogados_Cli.class);
             startActivity(intent);
             finish();
         });

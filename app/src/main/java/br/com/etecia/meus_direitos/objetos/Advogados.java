@@ -1,31 +1,18 @@
 package br.com.etecia.meus_direitos.objetos;
 
 public class Advogados {
-    private int id;
     private int imagem;
-    private String nomeAdvogado;
+    private String userName;
     private String cidade;
     private String estado;
-    private String areaAtuacao;
+    private String area_atuacao;
 
-    public Advogados() {
-    }
-
-    public Advogados(int id, int imagem, String nomeAdvogado, String cidade, String estado, String areaAtuacao) {
-        this.id = id;
+    public Advogados(int imagem, String userName, String cidade, String estado, String area_atuacao) {
         this.imagem = imagem;
-        this.nomeAdvogado = nomeAdvogado;
+        this.userName = userName;
         this.cidade = cidade;
         this.estado = estado;
-        this.areaAtuacao = areaAtuacao;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.area_atuacao = area_atuacao;
     }
 
     public int getImagem() {
@@ -36,12 +23,12 @@ public class Advogados {
         this.imagem = imagem;
     }
 
-    public String getNomeAdvogado() {
-        return nomeAdvogado;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setNomeAdvogado(String nomeAdvogado) {
-        this.nomeAdvogado = nomeAdvogado;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getCidade() {
@@ -61,10 +48,10 @@ public class Advogados {
     }
 
     public String getArea_atuacao() {
-        return areaAtuacao;
+        return area_atuacao;
     }
 
     public void setArea_atuacao(String area_atuacao) {
-        this.areaAtuacao = area_atuacao;
+        this.area_atuacao = area_atuacao;
     }
 }

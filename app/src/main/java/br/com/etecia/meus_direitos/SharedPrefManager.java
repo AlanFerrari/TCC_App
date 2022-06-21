@@ -42,10 +42,10 @@ public class SharedPrefManager {
         editor.putInt(KEY_ID, user.getId());
         editor.putString(KEY_USUARIO, user.getUsuario());
         editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putString(KEY_TELEFONE, user.getTelefone());
         editor.putString(KEY_CIDADE, user.getCidade());
         editor.putString(KEY_ESTADO, user.getEstado());
         editor.putString(KEY_NUMERO_OAB, user.getNumeroOAB());
+        editor.putString(KEY_TELEFONE, user.getTelefone());
         editor.apply();
     }
 

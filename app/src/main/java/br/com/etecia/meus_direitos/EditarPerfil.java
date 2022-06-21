@@ -1,8 +1,5 @@
 package br.com.etecia.meus_direitos;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -156,9 +156,10 @@ public class EditarPerfil extends AppCompatActivity {
                 RequestQueue requestQueue = Volley.newRequestQueue(EditarPerfil.this);
                 requestQueue.add(request);
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
                 intent.putExtra("areas", selectedChipData.toString());
                 setResult(101, intent);
+                startActivity(intent);
                 finish();
             }
         });
@@ -198,7 +199,7 @@ public class EditarPerfil extends AppCompatActivity {
 
         byte [] imagebyte = stream.toByteArray();
 
-        encodeImage = android.util.Base64.encodeToString(imagebyte, Base64.DEFAULT);
+        encodeImage = Base64.encodeToString(imagebyte, Base64.DEFAULT);
     }
 
 }

@@ -13,18 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.etecia.meus_direitos.objetos.Advogados;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<Advogados> mCartao;
 
-    public RecyclerAdapter(Context mContext, List<Advogados> mCartao) {
+    public RecyclerAdapter(Context mContext, ArrayList<Advogados> mCartao) {
         this.mContext = mContext;
         this.mCartao = mCartao;
     }
@@ -40,11 +37,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-        Glide.with(mContext).load(mCartao.get(position).getImagem()).into(holder.imagemPerfil);
-        holder.nomeAdvogado.setText(mCartao.get(position).getNomeAdvogado());
-        holder.estado.setText(mCartao.get(position).getEstado());
+        holder.imagemPerfil.setImageResource(mCartao.get(position).getImagem());
+        holder.nomeAdvogado.setText(mCartao.get(position).getUserName());
         holder.cidade.setText(mCartao.get(position).getCidade());
+        holder.estado.setText(mCartao.get(position).getEstado());
         holder.area_atuacao.setText(mCartao.get(position).getArea_atuacao());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -53,9 +49,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Intent intent = new Intent(mContext, Perfil_Advogados_Cli.class);
 
                 intent.putExtra("imagem", mCartao.get(position).getImagem());
-                intent.putExtra("nome", mCartao.get(position).getNomeAdvogado());
-                intent.putExtra("estado", mCartao.get(position).getEstado());
+                intent.putExtra("nome", mCartao.get(position).getUserName());
                 intent.putExtra("cidade", mCartao.get(position).getCidade());
+                intent.putExtra("estado", mCartao.get(position).getEstado());
                 intent.putExtra("area_atuacao", mCartao.get(position).getArea_atuacao());
 
                 mContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -68,12 +64,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return mCartao.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imagemPerfil;
         TextView nomeAdvogado;
-        TextView estado;
         TextView cidade;
+        TextView estado;
         TextView area_atuacao;
         CardView cardView;
 
@@ -82,8 +78,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             imagemPerfil = itemView.findViewById(R.id.imagem_perfil);
             nomeAdvogado = itemView.findViewById(R.id.nomeAdvogado);
-            estado = itemView.findViewById(R.id.estado);
             cidade = itemView.findViewById(R.id.cidade);
+            estado = itemView.findViewById(R.id.estado);
             area_atuacao = itemView.findViewById(R.id.nome_area_atuacao);
             cardView = itemView.findViewById(R.id.cardViewAdvogados);
         }
