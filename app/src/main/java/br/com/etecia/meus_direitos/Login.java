@@ -30,8 +30,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        edtUsuario = (EditText) findViewById(R.id.edtEmail);
-        edtSenha = (EditText) findViewById(R.id.edtSenha);
+        edtUsuario = findViewById(R.id.edtEmail);
+        edtSenha = findViewById(R.id.edtSenha);
         voltar = findViewById(R.id.imgVoltar);
         esqueciSenha = findViewById(R.id.txtesqueciSenha);
 
@@ -97,7 +97,6 @@ public class Login extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
 
-
                 try {
                     //convertendo a resposta para o objeto json
                     JSONObject obj = new JSONObject(s);
@@ -112,12 +111,12 @@ public class Login extends AppCompatActivity {
                         //criando um novo objeto de usuário
                         User user = new User(
                                 userJson.getInt("id"),
-                                userJson.getString("usuario"),
+                                userJson.getString("nome"),
                                 userJson.getString("email"),
-                                userJson.getString("cidade"),
+                                userJson.getString("telefone"),
                                 userJson.getString("estado"),
-                                userJson.getString("numero_oab"),
-                                userJson.getString("telefone_cel")
+                                userJson.getString("cidade"),
+                                userJson.getString("numeroOAB")
                         );
 
                         //armazenando o usuário nas preferências compartilhadas
@@ -145,7 +144,7 @@ public class Login extends AppCompatActivity {
                 params.put("senha", senha);
 
                 //retornando a resposta
-                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
+                return requestHandler.sendPostRequest(Api.URL_LOGIN, params);
             }
         }
 

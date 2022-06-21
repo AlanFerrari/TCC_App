@@ -2,7 +2,7 @@ package br.com.etecia.meus_direitos.objetos;
 
 public class User {
     private int id;
-    private String usuario;
+    private String nome;
     private String email;
     private String telefone;
     private String estado;
@@ -12,9 +12,9 @@ public class User {
     public User() {
     }
 
-    public User(int id, String usuario, String email, String telefone, String estado, String cidade, String numeroOAB) {
+    public User(int id, String nome, String email, String telefone, String estado, String cidade, String numeroOAB) {
         this.id = id;
-        this.usuario = usuario;
+        this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.estado = estado;
@@ -30,12 +30,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNome() {
+        return nome;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {

@@ -1,5 +1,4 @@
 package br.com.etecia.meus_direitos;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -14,18 +13,16 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class RequestHandler{
+public class RequestHandler {
 
-
-    //este método enviará uma solicitação de postagem para a url especificada
-    //neste aplicativo estamos usando apenas post request
-    //no hashmap temos os dados a serem enviados ao servidor em pares chave-valor
-    public String sendPostRequest(String requestURL, HashMap<String, String> postDataParams) {
+    public String sendPostRequest(String requestURL,
+                                  HashMap<String, String> postDataParams) {
 
         URL url;
 
         StringBuilder sb = new StringBuilder();
         try {
+
             url = new URL(requestURL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,18 +66,17 @@ public class RequestHandler{
         try {
             URL url = new URL(requestURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-            String response;
-            while ((response = br.readLine()) != null) {
-                sb.append(response + "\n");
+            String s;
+            while ((s = bufferedReader.readLine()) != null) {
+                sb.append(s + "\n");
             }
         } catch (Exception e) {
         }
         return sb.toString();
     }
 
-    //este método está convertendo dados de pares de valores-chave em uma string de consulta conforme necessário para enviar ao servidor
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;

@@ -88,7 +88,7 @@
         <EditText
             android:id="@+id/registroOAB"
             style="@style/Edit_Text"
-            android:inputType="textWebPassword"
+            android:inputType="text"
             android:drawableEnd="@drawable/ic_baseline_work"
             android:background="@drawable/borda"
             android:hint="Número de Registro no OAB"/>

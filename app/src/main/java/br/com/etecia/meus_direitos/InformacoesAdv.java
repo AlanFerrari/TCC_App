@@ -48,7 +48,7 @@ public class InformacoesAdv extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.informacoes:
-                Intent intent2 = new Intent(getApplicationContext(), InformacoesCli.class);
+                Intent intent2 = new Intent(getApplicationContext(), InformacoesAdv.class);
                 startActivity(intent2);
                 break;
         }

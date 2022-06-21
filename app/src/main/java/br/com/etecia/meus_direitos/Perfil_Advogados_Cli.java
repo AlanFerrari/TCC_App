@@ -38,8 +38,7 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
 
         User user = SharedPrefManager.getInstance(this).getUser();
 
-
-        txtNomeAdvogado.setText(user.getUsuario());
+        txtNomeAdvogado.setText(user.getNome());
         txtEmail.setText(user.getEmail());
         txtTelefone.setText(user.getTelefone());
         txtCidade.setText(user.getCidade());
@@ -50,7 +49,7 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Perfil_Advogados_Cli.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
         });
@@ -74,7 +73,6 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
                 startActivity(intent2);
                 break;
         }
-
         return true;
     }
 }

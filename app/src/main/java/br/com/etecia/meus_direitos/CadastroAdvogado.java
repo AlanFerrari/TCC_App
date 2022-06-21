@@ -67,18 +67,18 @@ public class CadastroAdvogado extends AppCompatActivity {
     }
 
     private void registerUser() {
-        final String usuario = edtNomeAdvogado.getText().toString().trim();
+        final String nome = edtNomeAdvogado.getText().toString().trim();
         final String email = edtEmail.getText().toString().trim();
         final String senha = edtSenha.getText().toString().trim();
         final String cidade = edtCidade.getText().toString().trim();
         final String estado = edtEstado.getText().toString().trim();
-        final String numero_oab = edtRegistroOAB.getText().toString().trim();
-        final String telefone_cel = edtTelefone.getText().toString().trim();
+        final String numeroOAB = edtRegistroOAB.getText().toString().trim();
+        final String telefone = edtTelefone.getText().toString().trim();
 
 
         //primeiro faremos as validações
 
-        if (TextUtils.isEmpty(usuario)) {
+        if (TextUtils.isEmpty(nome)) {
             edtNomeAdvogado.setError("Por favor insira seu nome completo");
             edtNomeAdvogado.requestFocus();
             return;
@@ -96,15 +96,9 @@ public class CadastroAdvogado extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(senha)) {
-            edtSenha.setError("Insira uma senha");
-            edtSenha.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(cidade)) {
-            edtCidade.setError("Digite a cidade onde mora");
-            edtCidade.requestFocus();
+        if (TextUtils.isEmpty(telefone)) {
+            edtTelefone.setError("Insira o número do seu whatsapp");
+            edtTelefone.requestFocus();
             return;
         }
 
@@ -114,15 +108,21 @@ public class CadastroAdvogado extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(numero_oab)) {
+        if (TextUtils.isEmpty(cidade)) {
+            edtCidade.setError("Insira a cidade onde mora");
+            edtCidade.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(numeroOAB)) {
             edtRegistroOAB.setError("Insira seu registro na OAB");
             edtRegistroOAB.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(telefone_cel)) {
-            edtTelefone.setError("Insira o número do seu whatsapp");
-            edtTelefone.requestFocus();
+        if (TextUtils.isEmpty(senha)) {
+            edtSenha.setError("Insira uma senha");
+            edtSenha.requestFocus();
             return;
         }
 
@@ -139,31 +139,21 @@ public class CadastroAdvogado extends AppCompatActivity {
 
                 //criando parâmetros de requisição
                 HashMap<String, String> params = new HashMap<>();
-                params.put("usuario", usuario);
+                params.put("nome", nome);
                 params.put("email", email);
-                params.put("senha", senha);
-                params.put("cidade", cidade);
+                params.put("telefone", telefone);
                 params.put("estado", estado);
-                params.put("numero_oab", numero_oab);
-                params.put("telefone_cel", telefone_cel);
+                params.put("cidade", cidade);
+                params.put("numeroOAB", numeroOAB);
+                params.put("senha", senha);
 
                 //retornando a resposta
-                return requestHandler.sendPostRequest(URLs.URL_REGISTER, params);
+                return requestHandler.sendPostRequest(Api.URL_CREATE_USER, params);
             }
-/*
-                      @Override
-                       protected void onPreExecute() {
-                          super.onPreExecute();
-                          //exibindo a barra de progresso enquanto o usuário se registra no servidor
-                          progressBar = (ProgressBar) findViewById(R.id.barraDeProgresso);
-                          progressBar.setVisibility(View.VISIBLE);
-                      }
-*/
+
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                //escondendo a barra de progresso após a conclusão
-                //progressBar.setVisibility(View.GONE);
 
                 try {
                     //convertendo a resposta para o objeto json
@@ -174,17 +164,17 @@ public class CadastroAdvogado extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                         //pega o usuário da resposta
-                        JSONObject userJson = obj.getJSONObject("usuario");
+                        JSONObject userJson = obj.getJSONObject("user");
 
                         //criando um novo objeto usuário
                         User user = new User(
                                 userJson.getInt("id"),
-                                userJson.getString("usuario"),
+                                userJson.getString("nome"),
                                 userJson.getString("email"),
-                                userJson.getString("cidade"),
+                                userJson.getString("telefone"),
                                 userJson.getString("estado"),
-                                userJson.getString("numero_oab"),
-                                userJson.getString("telefone_cel")
+                                userJson.getString("cidade"),
+                                userJson.getString("numeroOAB")
                         );
 
                         //armazenando o usuário nas preferências compartilhadas
