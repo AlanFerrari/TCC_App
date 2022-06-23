@@ -69,26 +69,34 @@
             android:drawableEnd="@drawable/ic_phone_android"
             android:hint="Número do Whatsapp"/>
 
-        <EditText
-            android:id="@+id/estado"
-            style="@style/Edit_Text"
-            android:inputType="text"
-            android:drawableEnd="@drawable/ic_baseline_location_city"
-            android:background="@drawable/borda"
-            android:hint="Estado em que mora"/>
+        <Spinner
+            android:id="@+id/estadoSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="25dp"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/style_spinner_cinza"
+            android:spinnerMode="dropdown" />
 
-        <EditText
-            android:id="@+id/cidade"
-            style="@style/Edit_Text"
-            android:inputType="text"
-            android:drawableEnd="@drawable/ic_baseline_location_city"
-            android:background="@drawable/borda"
-            android:hint="Cidade em que mora"/>
+        <Spinner
+            android:id="@+id/cidadeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="25dp"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/style_spinner_cinza"
+            android:spinnerMode="dropdown" />
 
         <EditText
             android:id="@+id/registroOAB"
             style="@style/Edit_Text"
-            android:inputType="text"
+            android:inputType="textWebPassword"
             android:drawableEnd="@drawable/ic_baseline_work"
             android:background="@drawable/borda"
             android:hint="Número de Registro no OAB"/>

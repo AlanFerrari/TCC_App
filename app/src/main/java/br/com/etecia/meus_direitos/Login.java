@@ -17,14 +17,14 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import br.com.etecia.meus_direitos.objetos.User;
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class Login extends AppCompatActivity {
 
     EditText edtUsuario;
     EditText edtSenha;
     ImageView voltar;
-    TextView esqueciSenha;
+    TextView esqueciSenha, cadastrarUsurario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
         edtSenha = findViewById(R.id.edtSenha);
         voltar = findViewById(R.id.imgVoltar);
         esqueciSenha = findViewById(R.id.txtesqueciSenha);
+        cadastrarUsurario = findViewById(R.id.txtIrCadastrar);
 
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
@@ -46,7 +47,7 @@ public class Login extends AppCompatActivity {
         findViewById(R.id.btnLogar).setOnClickListener(view -> userLogin());
 
         //se o usuário pressionar não registrado
-        findViewById(R.id.txtIrCadastrar).setOnClickListener(view -> {
+        cadastrarUsurario.setOnClickListener(view -> {
             //abrir tela de cadastro
             startActivity(new Intent(getApplicationContext(), CadastroAdvogado.class));
             finish();
@@ -109,14 +110,14 @@ public class Login extends AppCompatActivity {
                         JSONObject userJson = obj.getJSONObject("user");
 
                         //criando um novo objeto de usuário
-                        User user = new User(
+                        PerfilUsuario user = new PerfilUsuario(
                                 userJson.getInt("id"),
-                                userJson.getString("nome"),
+                                userJson.getString("usuario"),
                                 userJson.getString("email"),
-                                userJson.getString("telefone"),
-                                userJson.getString("estado"),
                                 userJson.getString("cidade"),
-                                userJson.getString("numeroOAB")
+                                userJson.getString("estado"),
+                                userJson.getString("numeroOAB"),
+                                userJson.getString("telefone")
                         );
 
                         //armazenando o usuário nas preferências compartilhadas
@@ -144,10 +145,9 @@ public class Login extends AppCompatActivity {
                 params.put("senha", senha);
 
                 //retornando a resposta
-                return requestHandler.sendPostRequest(Api.URL_LOGIN, params);
+                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
             }
         }
-
         UserLogin ul = new UserLogin();
         ul.execute();
     }

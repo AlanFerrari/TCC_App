@@ -1,11 +1,11 @@
 package br.com.etecia.meus_direitos.objetos;
 
 public class Advogados {
-    private int imagem;
-    private String userName;
-    private String cidade;
-    private String estado;
-    private String area_atuacao;
+    Integer imagem;
+    String userName;
+    String cidade;
+    String estado;
+    String area_atuacao;
 
     public Advogados(int imagem, String userName, String cidade, String estado, String area_atuacao) {
         this.imagem = imagem;

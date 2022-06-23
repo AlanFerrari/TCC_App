@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import br.com.etecia.meus_direitos.objetos.User;
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class Perfil_Advogados_Cli extends AppCompatActivity {
 
@@ -23,6 +26,8 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
     TextView txtCidade;
     TextView txtEstado;
     TextView txtRegistro;
+
+    Button whatsapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +40,10 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
         txtCidade = findViewById(R.id.cidade);
         txtEstado = findViewById(R.id.estado);
         txtRegistro = findViewById(R.id.registroOAB);
+        whatsapp = findViewById(R.id.Whatsapp);
 
-        User user = SharedPrefManager.getInstance(this).getUser();
+        PerfilUsuario user = SharedPrefManager.getInstance(this).getUser();
+
 
         txtNomeAdvogado.setText(user.getNome());
         txtEmail.setText(user.getEmail());
@@ -52,6 +59,18 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        String fone = txtTelefone.getText().toString();
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://api.whatsapp.com/send?phone=" + "055" + fone + "&text=Solicito%20Suporte%20Aplicativo%20Ibi-System";
+                Intent conversar = new Intent(Intent.ACTION_VIEW);
+                conversar.setData(Uri.parse(url));
+                startActivity(conversar);
+                finish();
+            }
         });
     }
 
@@ -73,6 +92,7 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
                 startActivity(intent2);
                 break;
         }
+
         return true;
     }
 }

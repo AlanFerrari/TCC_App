@@ -214,7 +214,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/style_spinner"
+                android:background="@drawable/style_spinner_branco"
                 android:spinnerMode="dropdown" />
 
         </LinearLayout>
@@ -241,7 +241,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/style_spinner"
+                android:background="@drawable/style_spinner_branco"
                 android:spinnerMode="dropdown" />
 
         </LinearLayout>

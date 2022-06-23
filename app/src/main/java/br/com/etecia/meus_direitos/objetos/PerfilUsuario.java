@@ -1,18 +1,16 @@
 package br.com.etecia.meus_direitos.objetos;
 
-public class User {
+public class PerfilUsuario {
     private int id;
     private String nome;
     private String email;
-    private String telefone;
+    private Integer telefone;
     private String estado;
     private String cidade;
     private String numeroOAB;
+    private String senha;
 
-    public User() {
-    }
-
-    public User(int id, String nome, String email, String telefone, String estado, String cidade, String numeroOAB) {
+    public PerfilUsuario(int id, String nome, String email, Integer telefone, String estado, String cidade, String numeroOAB, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -20,6 +18,7 @@ public class User {
         this.estado = estado;
         this.cidade = cidade;
         this.numeroOAB = numeroOAB;
+        this.senha = senha;
     }
 
     public int getId() {
@@ -46,11 +45,11 @@ public class User {
         this.email = email;
     }
 
-    public String getTelefone() {
+    public Integer getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(Integer telefone) {
         this.telefone = telefone;
     }
 
@@ -76,5 +75,13 @@ public class User {
 
     public void setNumeroOAB(String numeroOAB) {
         this.numeroOAB = numeroOAB;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

@@ -3,15 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_login.xml" value="0.2675925925925926" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/borda.xml" value="0.1665" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/style_spinner.xml" value="0.1665" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/style_spinner_cinza.xml" value="0.2475" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/style_spinner_up.xml" value="0.1665" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/layout/activity_editar_perfil.xml" value="0.1" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/layout/activity_lista_advogados.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/layout/activity_perfil_advogados_cli.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.3578125" />
+        <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_App/app/src/main/res/layout/activity_editar_perfil.xml" value="0.33" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/bookshelf.xml" value="0.1" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/borda.xml" value="0.2065" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/cor_fundo.xml" value="0.14" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/ic_account_box.xml" value="0.1" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/drawable/ic_baseline_location_city.xml" value="0.2985" />
-        <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.1" />
+        <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.33" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/layout/activity_chip_filtro.xml" value="0.1" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/layout/activity_entrar_como.xml" value="0.36102564102564105" />
         <entry key="..\:/Users/Laboratorio-Info/Documents/TCC_MeusDireitos/app/src/main/res/layout/activity_informacoes.xml" value="0.36666666666666664" />

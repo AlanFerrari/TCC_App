@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import br.com.etecia.meus_direitos.objetos.User;
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class PerfilAdvogado_Adv extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
         txtRegistro = findViewById(R.id.registroOAB);
         EditarPerfil = findViewById(R.id.btnEditarPerfil);
 
-        User user = SharedPrefManager.getInstance(this).getUser();
+        PerfilUsuario user = SharedPrefManager.getInstance(this).getUser();
 
 
         txtNomeAdvogado.setText(user.getNome());
