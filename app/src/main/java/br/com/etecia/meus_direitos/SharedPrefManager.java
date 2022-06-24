@@ -36,16 +36,16 @@ public class SharedPrefManager {
 
     //método para permitir o login do usuário
     //este método irá armazenar os dados do usuário em preferências compartilhadas
-    public void userLogin(PerfilUsuario user) {
+    public void userLogin(PerfilUsuario perfilUsuario) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(KEY_ID, user.getId());
-        editor.putString(KEY_USUARIO, user.getNome());
-        editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putString(KEY_CIDADE, user.getCidade());
-        editor.putString(KEY_ESTADO, user.getEstado());
-        editor.putString(KEY_NUMERO_OAB, user.getNumeroOAB());
-        editor.putString(KEY_TELEFONE, String.valueOf(user.getTelefone()));
+        //editor.putInt(KEY_ID, perfilUsuario.getId());
+        editor.putString(KEY_USUARIO, perfilUsuario.getNome());
+        editor.putString(KEY_EMAIL, perfilUsuario.getEmail());
+        editor.putString(KEY_CIDADE, perfilUsuario.getCidade());
+        editor.putString(KEY_ESTADO, perfilUsuario.getEstado());
+        editor.putString(KEY_NUMERO_OAB, perfilUsuario.getNumeroOAB());
+        editor.putString(KEY_TELEFONE, String.valueOf(perfilUsuario.getTelefone()));
         editor.apply();
     }
 
@@ -56,7 +56,7 @@ public class SharedPrefManager {
     }
 
     //este método dará ao usuário logado
-    public PerfilUsuario getUser() {
+   /* public PerfilUsuario getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new PerfilUsuario(
                 sharedPreferences.getInt(KEY_ID, -1),
@@ -76,5 +76,5 @@ public class SharedPrefManager {
         editor.clear();
         editor.apply();
         mCtx.startActivity(new Intent(mCtx, Login.class));
-    }
+    }*/
 }

@@ -1,11 +1,15 @@
 package br.com.etecia.meus_direitos;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -34,6 +39,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class EditarPerfil extends AppCompatActivity {
 
@@ -44,11 +51,11 @@ public class EditarPerfil extends AppCompatActivity {
     ArrayList<String> selectedChipData;
     Button alterarPerfil;
     Spinner estado, cidade;
+    String ultimoCaracterDigitado = "";
 
-    String url = "";
-    Uri seleteduri;
-    Bitmap bitmap;
-    String encodeImage;
+    DB db;
+    PerfilUsuario perfilUsuario = new PerfilUsuario();
+    ArrayList<String> areaAtuacao = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +86,18 @@ public class EditarPerfil extends AppCompatActivity {
 
         alterarPerfil = findViewById(R.id.AlterarPerfil);
         selectedChipData = new ArrayList<>();
+        db = new DB(this);
 
         CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked){
+                if (isChecked) {
                     selectedChipData.add(buttonView.getText().toString());
-                }
-                else{
+                    areaAtuacao.add(String.valueOf(selectedChipData));
+                } else {
                     selectedChipData.remove(buttonView.getText().toString());
+                    areaAtuacao.remove(String.valueOf(selectedChipData));
                 }
             }
         };
@@ -112,10 +121,49 @@ public class EditarPerfil extends AppCompatActivity {
             }
         });
 
+        String[] areaAtuacaoEscolhida = areaAtuacao.toArray(new String[0]);
+
+        telefone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Integer tamanhoDoTelefone = telefone.getText().toString().length();
+                if (tamanhoDoTelefone > 1){
+                    ultimoCaracterDigitado = telefone.getText().toString().substring(tamanhoDoTelefone-1);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Integer tamanhoDoTelefone = telefone.getText().toString().length();
+                if (tamanhoDoTelefone == 2){
+                    if (ultimoCaracterDigitado.equals(" ")){
+                        telefone.append(" ");
+                    } else {
+                        telefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
+                    }
+                } else if (tamanhoDoTelefone == 8){
+                    if (ultimoCaracterDigitado.equals("-")){
+                        telefone.append("-");
+                    } else {
+                        telefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         editarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(intent, 2);
+
+                db.atualizar(perfilUsuario);
 
             }
         });
@@ -124,82 +172,45 @@ public class EditarPerfil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                perfilUsuario.setNome(nomeAdvogado.getText().toString());
+                perfilUsuario.setEmail(email.getText().toString());
+                perfilUsuario.setTelefone(Integer.valueOf(telefone.getText().toString()));
+                perfilUsuario.setEstado(estado.getSelectedItem().toString());
+                perfilUsuario.setCidade(cidade.getSelectedItem().toString());
+                perfilUsuario.setNumeroOAB(registroOAB.getText().toString());
+                perfilUsuario.setAreaAtuacao(areaAtuacaoEscolhida.toString());
+                perfilUsuario.setBibliografia(bibliografia.getText().toString());
+                perfilUsuario.setFotoPerfil(Integer.valueOf(String.valueOf(fotoPerfil)));
 
+                db.atualizar(perfilUsuario);
 
-                        Toast.makeText(EditarPerfil.this, response.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(EditarPerfil.this, error.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                }){
-
-                    @Nullable
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-                        Map<String, String> param = new HashMap<String, String>();
-
-                        param.put("imagem", encodeImage);
-
-
-                        return param;
-                    }
-                };
-
-                RequestQueue requestQueue = Volley.newRequestQueue(EditarPerfil.this);
-                requestQueue.add(request);
-
-                Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
-                intent.putExtra("areas", selectedChipData.toString());
-                setResult(101, intent);
-                startActivity(intent);
-                finish();
+                Snackbar snackbar = Snackbar.make(view, "Alteração feita com sucesso",Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(Color.WHITE);
+                snackbar.setTextColor(Color.BLACK);
+                snackbar.show();
             }
         });
-    }
-
-    private  void escolhendoImagem(){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(intent,1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2){
+            if (resultCode == RESULT_OK){
 
-        if (requestCode == 1 || requestCode == RESULT_OK || data != null || data.getData() != null){
+                Uri imagemSelecionada = getIntent().getData();
+                String[] colunas = {MediaStore.Images.Media.DATA};
 
-            seleteduri = data.getData();
+                Cursor cursor = getContentResolver().query(imagemSelecionada, colunas, null, null, null);
+                cursor.moveToFirst();
 
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(seleteduri);
-                bitmap = BitmapFactory.decodeStream(inputStream);
+                int indexColuna = cursor.getColumnIndex(colunas[0]);
+                String pathImg = cursor.getString(indexColuna);
+                cursor.close();
+
+                Bitmap bitmap = BitmapFactory.decodeFile(pathImg);
                 fotoPerfil.setImageBitmap(bitmap);
-                imageStore(bitmap);
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             }
-
         }
     }
-
-    private void imageStore(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-        byte [] imagebyte = stream.toByteArray();
-
-        encodeImage = Base64.encodeToString(imagebyte, Base64.DEFAULT);
-    }
-
 }

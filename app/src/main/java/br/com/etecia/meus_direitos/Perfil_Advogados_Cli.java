@@ -42,7 +42,7 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
         txtRegistro = findViewById(R.id.registroOAB);
         whatsapp = findViewById(R.id.Whatsapp);
 
-        PerfilUsuario user = SharedPrefManager.getInstance(this).getUser();
+      /*  PerfilUsuario user = SharedPrefManager.getInstance(this).getUser();
 
 
         txtNomeAdvogado.setText(user.getNome());
@@ -50,7 +50,7 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
         txtTelefone.setText(user.getTelefone());
         txtCidade.setText(user.getCidade());
         txtEstado.setText(user.getEstado());
-        txtRegistro.setText(user.getNumeroOAB());
+        txtRegistro.setText(user.getNumeroOAB());*/
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);

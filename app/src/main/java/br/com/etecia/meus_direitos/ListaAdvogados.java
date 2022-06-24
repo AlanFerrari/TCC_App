@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,25 +23,24 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import br.com.etecia.meus_direitos.objetos.API_IBGE;
-import br.com.etecia.meus_direitos.objetos.Advogados;
+import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 import br.com.etecia.meus_direitos.objetos.Cidades;
 import br.com.etecia.meus_direitos.objetos.Estados;
-import br.com.etecia.meus_direitos.objetos.Subdistritos;
 
 public class ListaAdvogados extends AppCompatActivity {
 
     MaterialToolbar toolbar;
-    ArrayList<Advogados> lstAdvogados;
     Spinner spinnerAreas, spinnerEstados, spinnerCidades;
     ImageView imagemfiltro;
     CardView cardViewFiltro;
     Button buttonFiltrar;
+    ListAdvogados adv = new ListAdvogados();
 
     Cidades[] municipios = null;
 
@@ -50,6 +48,17 @@ public class ListaAdvogados extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_advogados);
+
+        DB db = new DB(this);
+        ArrayList<ListAdvogados> arrayList = new ArrayList<>();
+        arrayList = db.buscarAdvogados();
+
+        RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), arrayList);
+        mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        mrecyclerView.setAdapter(mAdapter);
+        mrecyclerView.setHasFixedSize(true);
+
 
         spinnerAreas = findViewById(R.id.filtrarArea);
         spinnerEstados = findViewById(R.id.filtrarEstado);
@@ -60,6 +69,21 @@ public class ListaAdvogados extends AppCompatActivity {
         imagemfiltro = findViewById(R.id.filtrar);
         cardViewFiltro = findViewById(R.id.cardFiltro);
         buttonFiltrar = findViewById(R.id.bottomFiltrar);
+
+        Intent intent = getIntent();
+        if (intent != null){
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+
+                adv.setId(bundle.getLong("id"));
+                adv.setNome(bundle.getString("nome"));
+                adv.setEstado(bundle.getString("estado"));
+                adv.setCidade(bundle.getString("cidade"));
+                adv.setAreaAtuacao(bundle.getString("areaAtuacao"));
+                adv.setFotoPerfil(Integer.valueOf(bundle.getString("fotoPerfil")));
+
+            }
+        }
 
         //Criando um array de areas de trabalho no spinner
         ArrayAdapter<CharSequence> adapterAreas = ArrayAdapter.createFromResource(this, R.array.areas_atuacao, android.R.layout.simple_spinner_item);
@@ -194,16 +218,6 @@ public class ListaAdvogados extends AppCompatActivity {
                 finish();
             }
         });
-
-        lstAdvogados = new ArrayList<>();
-
-        lstAdvogados.add(new Advogados(R.drawable.exemplo, "Luis Abelardo Pachoal da Costa", "São Paulo", "SP", "Direito Civil, Direito do Consumidor e Direito Trabalhista"));
-
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view_lista);
-        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), lstAdvogados);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
 
     }
 

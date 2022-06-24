@@ -1,31 +1,26 @@
 package br.com.etecia.meus_direitos.objetos;
 
+import android.content.Context;
+
 public class PerfilUsuario {
-    private int id;
-    private String nome;
-    private String email;
-    private Integer telefone;
-    private String estado;
-    private String cidade;
-    private String numeroOAB;
-    private String senha;
 
-    public PerfilUsuario(int id, String nome, String email, Integer telefone, String estado, String cidade, String numeroOAB, String senha) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
-        this.estado = estado;
-        this.cidade = cidade;
-        this.numeroOAB = numeroOAB;
-        this.senha = senha;
-    }
+    long id;
+    String nome;
+    String email;
+    Integer telefone;
+    String estado;
+    String cidade;
+    String numeroOAB;
+    String senha;
+    String areaAtuacao;
+    String bibliografia;
+    Integer fotoPerfil;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -83,5 +78,29 @@ public class PerfilUsuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getAreaAtuacao() {
+        return areaAtuacao;
+    }
+
+    public void setAreaAtuacao(String areaAtuacao) {
+        this.areaAtuacao = areaAtuacao;
+    }
+
+    public String getBibliografia() {
+        return bibliografia;
+    }
+
+    public void setBibliografia(String bibliografia) {
+        this.bibliografia = bibliografia;
+    }
+
+    public Integer getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(Integer fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 }

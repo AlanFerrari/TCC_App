@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import br.com.etecia.meus_direitos.objetos.Advogados;
+import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Advogados> mCartao;
+    private ArrayList<ListAdvogados> mCartao;
 
-    public RecyclerAdapter(Context mContext, ArrayList<Advogados> mCartao) {
+    public RecyclerAdapter(Context mContext, ArrayList<ListAdvogados> mCartao) {
         this.mContext = mContext;
         this.mCartao = mCartao;
     }
@@ -37,22 +37,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.imagemPerfil.setImageResource(mCartao.get(position).getImagem());
-        holder.nomeAdvogado.setText(mCartao.get(position).getUserName());
+        holder.nomeAdvogado.setText(mCartao.get(position).getNome());
         holder.cidade.setText(mCartao.get(position).getCidade());
         holder.estado.setText(mCartao.get(position).getEstado());
-        holder.area_atuacao.setText(mCartao.get(position).getArea_atuacao());
+        holder.area_atuacao.setText(mCartao.get(position).getAreaAtuacao());
+        holder.imagemPerfil.setImageResource(mCartao.get(position).getFotoPerfil());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Perfil_Advogados_Cli.class);
 
-                intent.putExtra("imagem", mCartao.get(position).getImagem());
-                intent.putExtra("nome", mCartao.get(position).getUserName());
+                intent.putExtra("id", mCartao.get(position).getId());
+                intent.putExtra("nome", mCartao.get(position).getNome());
                 intent.putExtra("cidade", mCartao.get(position).getCidade());
                 intent.putExtra("estado", mCartao.get(position).getEstado());
-                intent.putExtra("area_atuacao", mCartao.get(position).getArea_atuacao());
+                intent.putExtra("areaAtuacao", mCartao.get(position).getAreaAtuacao());
+                intent.putExtra("fotoPerfil", mCartao.get(position).getFotoPerfil());
 
                 mContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }

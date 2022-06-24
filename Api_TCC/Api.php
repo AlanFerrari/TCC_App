@@ -6,7 +6,7 @@
    $response = array();
 
    //se for uma chamada de API
-   //isso significa que um parâmetro get chamado api call está definido na URL
+   //isso significa que um parâmetro get chamado DBHelper call está definido na URL
    //e com este parâmetro estamos concluindo que é uma chamada de API 
    if(isset($_GET['apicall'])){
 
@@ -126,7 +126,7 @@
       }
    
    } else{
-   //se não chamar a api
+   //se não chamar a DBHelper
    //enviando valores apropriados para array de resposta 
    $response['error'] = true; 
    $response['message'] = 'Chamada de API invalida';

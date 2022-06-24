@@ -67,6 +67,7 @@
             android:inputType="number"
             android:background="@drawable/borda"
             android:drawableEnd="@drawable/ic_phone_android"
+            android:maxLength="15"
             android:hint="Número do Whatsapp"/>
 
         <Spinner
