@@ -292,10 +292,13 @@
             android:background="@drawable/borda"
             android:gravity="top"
             android:lines="7"
-            android:maxLines="9"
+            android:maxLines="10"
+            android:maxLength="500"
             android:padding="10dp"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-            android:textColor="@color/verde" />
+            android:textColor="@color/black"
+            android:textSize="19dp"
+            />
 
         <Button
             android:id="@+id/AlterarPerfil"

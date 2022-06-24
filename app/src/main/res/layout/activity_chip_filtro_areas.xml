@@ -138,16 +138,21 @@
             android:textSize="18dp" />
 
         <EditText
+            android:id="@+id/bibliografia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:lines="7"
-            android:maxLines="9"
+            android:background="@drawable/borda"
             android:gravity="top"
+            android:lines="7"
+            android:maxLines="10"
+            android:maxLength="500"
             android:padding="10dp"
-            android:background="@drawable/borda" />
+            android:textColor="@color/black"
+            android:textSize="19dp"
+            />
 
         <Button
             android:id="@+id/btnEnviarAreas"

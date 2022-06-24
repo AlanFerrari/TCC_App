@@ -7,21 +7,31 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class Chip_filtro_areas extends AppCompatActivity {
 
     Chip civil, consumidor, trabalhista, penal, empresarial, ambiental, ti, contratual, tributario;
     ArrayList<String> selectedChipData;
     Button enviar;
+    EditText bibliografia;
+    ArrayList<String> areaAtuacao = new ArrayList<>();
+    PerfilUsuario perfilUsuario = new PerfilUsuario();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chip_filtro_areas);
+
+        DB db = new DB(this);
 
         civil = findViewById(R.id.chipCivil);
         consumidor = findViewById(R.id.chipConsumidor);
@@ -33,6 +43,7 @@ public class Chip_filtro_areas extends AppCompatActivity {
         contratual = findViewById(R.id.chipContratual);
         tributario = findViewById(R.id.chipTributário);
 
+        bibliografia = findViewById(R.id.bibliografia);
         enviar = findViewById(R.id.btnEnviarAreas);
 
         selectedChipData = new ArrayList<>();
@@ -43,9 +54,11 @@ public class Chip_filtro_areas extends AppCompatActivity {
 
                 if (isChecked){
                     selectedChipData.add(buttonView.getText().toString());
+                    areaAtuacao.add(String.valueOf(selectedChipData));
                 }
                 else{
                     selectedChipData.remove(buttonView.getText().toString());
+                    areaAtuacao.remove(String.valueOf(selectedChipData));
                 }
             }
         };
@@ -61,12 +74,20 @@ public class Chip_filtro_areas extends AppCompatActivity {
         tributario.setOnCheckedChangeListener(checkedChangeListener);
 
 
+        String[] areaAtuacaoEscolhida = areaAtuacao.toArray(new String[0]);
+
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
-                intent.putExtra("areas", selectedChipData.toString());
-                setResult(101, intent);
+
+                perfilUsuario.setAreaAtuacao(areaAtuacaoEscolhida.toString());
+                perfilUsuario.setBibliografia(bibliografia.getText().toString());
+
+                db.atualizar(perfilUsuario);
+
+                /*intent.putExtra("areas", selectedChipData.toString());
+                setResult(101, intent);*/
                 startActivity(intent);
                 finish();
             }

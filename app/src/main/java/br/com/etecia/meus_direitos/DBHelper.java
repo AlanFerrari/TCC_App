@@ -75,9 +75,9 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public Boolean PegarDadosDoBanco(String nome, String email, String telefone, String estado, String cidade, String registroOAB){
+    public Boolean PegarDadosDoBanco(String nome, String email, String telefone, String areaAtuacao, String estado, String cidade, String registroOAB, String bibliografia){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT nome, email, telefone, estado, cidade, registroOAB FROM advogados WHERE email = ?", new String[] {nome, email, telefone, estado, cidade, registroOAB});
+        Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE email = ?", new String[] {nome, email, telefone, areaAtuacao, estado, cidade, registroOAB, bibliografia});
         if (cursor.getCount() > 0)
             return true;
         else

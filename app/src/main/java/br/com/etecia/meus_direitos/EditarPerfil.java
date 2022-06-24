@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,22 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
@@ -46,16 +33,16 @@ public class EditarPerfil extends AppCompatActivity {
 
     ImageView voltar, fotoPerfil;
     TextView editarFoto;
-    EditText nomeAdvogado, email, telefone, registroOAB, bibliografia;
+    EditText edtnomeAdvogado, edtemail, edttelefone, edtregistroOAB, edtbibliografia;
     Chip civil, consumidor, trabalhista, penal, empresarial, ambiental, ti, contratual, tributario;
     ArrayList<String> selectedChipData;
     Button alterarPerfil;
-    Spinner estado, cidade;
+    Spinner estadoSpinner, cidadeSpinner;
     String ultimoCaracterDigitado = "";
 
     DB db;
     PerfilUsuario perfilUsuario = new PerfilUsuario();
-    ArrayList<String> areaAtuacao = new ArrayList<>();
+    ArrayList<String> areas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +51,13 @@ public class EditarPerfil extends AppCompatActivity {
 
         voltar = findViewById(R.id.imgVoltar);
         fotoPerfil = findViewById(R.id.fotoPerfil);
-        nomeAdvogado = findViewById(R.id.nomeAdvogado);
-        email = findViewById(R.id.email);
-        telefone = findViewById(R.id.telefone);
-        cidade = findViewById(R.id.alterarCidade);
-        estado = findViewById(R.id.alterarEstado);
-        registroOAB = findViewById(R.id.registroOAB);
-        bibliografia = findViewById(R.id.bibliografia);
+        edtnomeAdvogado = findViewById(R.id.nomeAdvogado);
+        edtemail = findViewById(R.id.email);
+        edttelefone = findViewById(R.id.telefone);
+        cidadeSpinner = findViewById(R.id.alterarCidade);
+        estadoSpinner = findViewById(R.id.alterarEstado);
+        edtregistroOAB = findViewById(R.id.registroOAB);
+        edtbibliografia = findViewById(R.id.bibliografia);
 
         editarFoto = findViewById(R.id.editarFoto);
 
@@ -88,16 +75,48 @@ public class EditarPerfil extends AppCompatActivity {
         selectedChipData = new ArrayList<>();
         db = new DB(this);
 
+        DBHelper DB = new DBHelper(this);
+
+        String nome = edtnomeAdvogado.getText().toString();
+        String email = edtemail.getText().toString();
+        String telefone = edttelefone.getText().toString();
+        String areaAtuacao = areas.toString();
+        String estado = estadoSpinner.getSelectedItem().toString();
+        String cidade = cidadeSpinner.getSelectedItem().toString();
+        String numeroOAB = edtregistroOAB.getText().toString();
+        String bibliografia = edtbibliografia.getText().toString();
+
+        Boolean perfil = DB.PegarDadosDoBanco(nome, email, telefone, areaAtuacao, estado, cidade, numeroOAB, bibliografia);
+
+        if (perfil == true){
+
+            perfilUsuario.setNome(edtnomeAdvogado.getText().toString());
+            perfilUsuario.setEmail(edtemail.getText().toString());
+            perfilUsuario.setTelefone(Integer.valueOf(edttelefone.getText().toString()));
+            perfilUsuario.setAreaAtuacao(areas.toString());;
+            perfilUsuario.setEstado(estadoSpinner.getSelectedItem().toString());
+            perfilUsuario.setCidade(cidadeSpinner.getSelectedItem().toString());
+            perfilUsuario.setNumeroOAB(edtregistroOAB.getText().toString());
+            perfilUsuario.setBibliografia(edtbibliografia.getText().toString());
+
+
+        } else {
+            Toast.makeText(this, "Falha na obtenção de dados", Toast.LENGTH_SHORT).show();
+        }
+
         CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
+                    selectedChipData.add(String.valueOf(areas));
                     selectedChipData.add(buttonView.getText().toString());
-                    areaAtuacao.add(String.valueOf(selectedChipData));
+                    areas.add(String.valueOf(selectedChipData));
+
                 } else {
+                    selectedChipData.remove(String.valueOf(areas));
                     selectedChipData.remove(buttonView.getText().toString());
-                    areaAtuacao.remove(String.valueOf(selectedChipData));
+                    areas.remove(String.valueOf(selectedChipData));
                 }
             }
         };
@@ -121,31 +140,30 @@ public class EditarPerfil extends AppCompatActivity {
             }
         });
 
-        String[] areaAtuacaoEscolhida = areaAtuacao.toArray(new String[0]);
 
-        telefone.addTextChangedListener(new TextWatcher() {
+        edttelefone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Integer tamanhoDoTelefone = telefone.getText().toString().length();
+                Integer tamanhoDoTelefone = edttelefone.getText().toString().length();
                 if (tamanhoDoTelefone > 1){
-                    ultimoCaracterDigitado = telefone.getText().toString().substring(tamanhoDoTelefone-1);
+                    ultimoCaracterDigitado = edttelefone.getText().toString().substring(tamanhoDoTelefone-1);
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Integer tamanhoDoTelefone = telefone.getText().toString().length();
+                Integer tamanhoDoTelefone = edttelefone.getText().toString().length();
                 if (tamanhoDoTelefone == 2){
                     if (ultimoCaracterDigitado.equals(" ")){
-                        telefone.append(" ");
+                        edttelefone.append(" ");
                     } else {
-                        telefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
+                        edttelefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
                     }
                 } else if (tamanhoDoTelefone == 8){
                     if (ultimoCaracterDigitado.equals("-")){
-                        telefone.append("-");
+                        edttelefone.append("-");
                     } else {
-                        telefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
+                        edttelefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
                     }
                 }
             }
@@ -168,18 +186,22 @@ public class EditarPerfil extends AppCompatActivity {
             }
         });
 
+        String[] areaAtuacaoEscolhida = areas.toArray(new String[0]);
+
         alterarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                perfilUsuario.setNome(nomeAdvogado.getText().toString());
-                perfilUsuario.setEmail(email.getText().toString());
-                perfilUsuario.setTelefone(Integer.valueOf(telefone.getText().toString()));
-                perfilUsuario.setEstado(estado.getSelectedItem().toString());
-                perfilUsuario.setCidade(cidade.getSelectedItem().toString());
-                perfilUsuario.setNumeroOAB(registroOAB.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+
+                perfilUsuario.setNome(edtnomeAdvogado.getText().toString());
+                perfilUsuario.setEmail(edtemail.getText().toString());
+                perfilUsuario.setTelefone(Integer.valueOf(edttelefone.getText().toString()));
+                perfilUsuario.setEstado(estadoSpinner.getSelectedItem().toString());
+                perfilUsuario.setCidade(cidadeSpinner.getSelectedItem().toString());
+                perfilUsuario.setNumeroOAB(edtregistroOAB.getText().toString());
                 perfilUsuario.setAreaAtuacao(areaAtuacaoEscolhida.toString());
-                perfilUsuario.setBibliografia(bibliografia.getText().toString());
+                perfilUsuario.setBibliografia(edtbibliografia.getText().toString());
                 perfilUsuario.setFotoPerfil(Integer.valueOf(String.valueOf(fotoPerfil)));
 
                 db.atualizar(perfilUsuario);
@@ -188,6 +210,9 @@ public class EditarPerfil extends AppCompatActivity {
                 snackbar.setBackgroundTint(Color.WHITE);
                 snackbar.setTextColor(Color.BLACK);
                 snackbar.show();
+
+                startActivity(intent);
+                finish();
             }
         });
     }
