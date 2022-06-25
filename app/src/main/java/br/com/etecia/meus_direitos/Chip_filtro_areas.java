@@ -74,20 +74,18 @@ public class Chip_filtro_areas extends AppCompatActivity {
         tributario.setOnCheckedChangeListener(checkedChangeListener);
 
 
-        String[] areaAtuacaoEscolhida = areaAtuacao.toArray(new String[0]);
-
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
 
-                perfilUsuario.setAreaAtuacao(areaAtuacaoEscolhida.toString());
+                perfilUsuario.setAreaAtuacao(areaAtuacao.toString());
                 perfilUsuario.setBibliografia(bibliografia.getText().toString());
 
                 db.atualizar(perfilUsuario);
 
-                /*intent.putExtra("areas", selectedChipData.toString());
-                setResult(101, intent);*/
+                intent.putExtra("areas", selectedChipData.toString());
+                setResult(101, intent);
                 startActivity(intent);
                 finish();
             }

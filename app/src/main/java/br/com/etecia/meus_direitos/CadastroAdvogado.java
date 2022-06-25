@@ -63,39 +63,6 @@ public class CadastroAdvogado extends AppCompatActivity {
         spinnerCidade = findViewById(R.id.cidadeSpinner);
         spinnerCidade.setEnabled(true);
 
-        edtTelefone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Integer tamanhoDoTelefone = edtTelefone.getText().toString().length();
-                if (tamanhoDoTelefone > 1){
-                    ultimoCaracterDigitado = edtTelefone.getText().toString().substring(tamanhoDoTelefone-1);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Integer tamanhoDoTelefone = edtTelefone.getText().toString().length();
-                if (tamanhoDoTelefone == 2){
-                    if (ultimoCaracterDigitado.equals(" ")){
-                        edtTelefone.append(" ");
-                    } else {
-                        edtTelefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
-                    }
-                } else if (tamanhoDoTelefone == 8){
-                    if (ultimoCaracterDigitado.equals("-")){
-                        edtTelefone.append("-");
-                    } else {
-                        edtTelefone.getText().delete(tamanhoDoTelefone -1, tamanhoDoTelefone);
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +71,7 @@ public class CadastroAdvogado extends AppCompatActivity {
                 finish();
             }
         });
-
+        //Cadastrando um novo usuario
         btnCadastrarAdvogado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +92,7 @@ public class CadastroAdvogado extends AppCompatActivity {
                 } else {
                     Boolean checandoUsuario = dbHelper.checandoEmailDoUsuario(email);
                     if (checandoUsuario == false){
-                        Boolean inserirDados = dbHelper.Cadastro(nome, email, telefone, estado, cidade, registroOAB, senha);
+                        Boolean inserirDados = dbHelper.Cadastro(perfilUsuario);
                         if (inserirDados == true){
 
                             Intent intent = new Intent(getApplicationContext(), Chip_filtro_areas.class);
@@ -155,33 +122,7 @@ public class CadastroAdvogado extends AppCompatActivity {
             }
         });
 
-     /*   btnCadastrarAdvogado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Chip_filtro_areas.class);
-
-                perfilUsuario.setNome(edtNomeAdvogado.getText().toString());
-                perfilUsuario.setEmail(edtEmail.getText().toString());
-                perfilUsuario.setTelefone(Integer.valueOf(edtTelefone.getText().toString()));
-                perfilUsuario.setEstado(spinnerEstado.getSelectedItem().toString());
-                perfilUsuario.setCidade(spinnerCidade.getSelectedItem().toString());
-                perfilUsuario.setNumeroOAB(edtRegistroOAB.getText().toString());
-                perfilUsuario.setSenha(edtSenha.getText().toString());
-
-                db.inserir(perfilUsuario);
-
-                Snackbar snackbar = Snackbar.make(view, mensagens[1],Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(Color.WHITE);
-                snackbar.setTextColor(Color.BLACK);
-                snackbar.show();
-
-                LimpaFormulário();
-
-                startActivity(intent);
-                finish();
-            }
-        });*/
-
+        //preenchendo o spinner estado
         String respostaEstados = executaApiIBGE("estado");
 
         Gson gsonEstados = new GsonBuilder().setPrettyPrinting().create();
@@ -248,6 +189,7 @@ public class CadastroAdvogado extends AppCompatActivity {
         edtSenha.setText("");
     }
 
+    //Preenchendo o spinner cidade
     private void solicitarMunicipios(String siglaEstado) {
         String respostaMunicipios = executaApiIBGE("municipio", siglaEstado);
 
@@ -279,6 +221,7 @@ public class CadastroAdvogado extends AppCompatActivity {
         String respostaSubdistritos = executaApiIBGE("subdistrito", idMunicipio);
     }
 
+    //Chamando a api do IBGE
     private String executaApiIBGE (String... params) {
         API_IBGE api_ibge = new API_IBGE();
 

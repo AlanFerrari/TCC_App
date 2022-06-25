@@ -63,13 +63,15 @@ public class Login extends AppCompatActivity {
                 } else {
                     Boolean checandoUsuario = DB.checandoEmailESenhaDoUsuario(email, senha);
                     if (checandoUsuario == true){
+
+                        Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
                         Snackbar snackbar = Snackbar.make(view, mensagens[1],Snackbar.LENGTH_SHORT);
                         snackbar.setBackgroundTint(Color.WHITE);
                         snackbar.setTextColor(Color.BLACK);
                         snackbar.show();
-                        Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
                         startActivity(intent);
                         finish();
+
                     } else {
                         Snackbar snackbar = Snackbar.make(view, mensagens[2],Snackbar.LENGTH_SHORT);
                         snackbar.setBackgroundTint(Color.WHITE);

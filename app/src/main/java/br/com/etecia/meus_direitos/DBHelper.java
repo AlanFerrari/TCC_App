@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etecia.meus_direitos.objetos.ListAdvogados;
+import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class DBHelper extends SQLiteOpenHelper {
     
@@ -22,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE advogados" +
-                        "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "nome VARCHAR(50) NOT NULL, " +
                         "email VARCHAR(50) NOT NULL, " +
                         "telefone Integer NOT NULL, " +
@@ -41,17 +42,17 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public Boolean Cadastro(String nome, String email, String telefone, String estado, String cidade, String numeroOAB, String senha){
+    public Boolean Cadastro(PerfilUsuario perfilUsuario){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("nome", nome);
-        values.put("email", email);
-        values.put("telefone", telefone);
-        values.put("estado", estado);
-        values.put("cidade", cidade);
-        values.put("numeroOAB", numeroOAB);
-        values.put("senha", senha);
+        values.put("nome", perfilUsuario.getNome());
+        values.put("email", perfilUsuario.getEmail());
+        values.put("telefone", perfilUsuario.getTelefone());
+        values.put("estado", perfilUsuario.getEstado());
+        values.put("cidade", perfilUsuario.getCidade());
+        values.put("numeroOAB", perfilUsuario.getNumeroOAB());
+        values.put("senha", perfilUsuario.getSenha());
 
         long result = db.insert("advogados", null, values);
         if (result == -1) return false;
@@ -69,15 +70,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean checandoEmailESenhaDoUsuario(String email, String senha){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE email = ? AND senha = ?", new  String[] {email, senha});
-        if (cursor.getCount() > 0)
-            return true;
-        else
-            return false;
-    }
-
-    public Boolean PegarDadosDoBanco(String nome, String email, String telefone, String areaAtuacao, String estado, String cidade, String registroOAB, String bibliografia){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE email = ?", new String[] {nome, email, telefone, areaAtuacao, estado, cidade, registroOAB, bibliografia});
         if (cursor.getCount() > 0)
             return true;
         else

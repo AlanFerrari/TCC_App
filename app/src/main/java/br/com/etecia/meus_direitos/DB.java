@@ -33,7 +33,7 @@ public class DB {
         db.insert("advogados", null, values);
     }
 
-    public void atualizar(PerfilUsuario perfilUsuario) {
+    public boolean atualizar(PerfilUsuario perfilUsuario) {
         ContentValues values = new ContentValues();
 
         values.put("nome", perfilUsuario.getNome());
@@ -47,19 +47,37 @@ public class DB {
         values.put("bibliografia", perfilUsuario.getBibliografia());
         values.put("fotoPerfil", perfilUsuario.getFotoPerfil());
 
-        db.update("advogados", values, "_id = ?", new String[]{"" + perfilUsuario.getId()});
+        int rows = db.update("advogados", values, "id = ?", new String[]{String.valueOf(perfilUsuario.getId())});
+        db.close();
+        return rows > 0;
     }
 
-    public void buscarPerfil() {
+    public PerfilUsuario buscarPerfil(int id) {
 
-        String[] colunas = new String[]{"_id", "nome", "email", "telefone", "estado", "cidade", "numeroOAB", "areaAtuacao", "bibliografia", "fotoPerfil"};
-        Cursor cursor = db.query("advogados", colunas, null, null, null, null, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE id = ?", new  String[]{String.valueOf(id)});
+        PerfilUsuario perfilUsuario = null;
+
+        if (cursor.moveToFirst()){
+            perfilUsuario = new PerfilUsuario();
+            perfilUsuario.setId(cursor.getLong(0));
+            perfilUsuario.setNome(cursor.getString(1));
+            perfilUsuario.setEmail(cursor.getString(2));
+            perfilUsuario.setTelefone(Integer.valueOf(cursor.getString(3)));
+            perfilUsuario.setEstado(cursor.getString(4));
+            perfilUsuario.setCidade(cursor.getString(5));
+            perfilUsuario.setNumeroOAB(cursor.getString(6));
+            perfilUsuario.setAreaAtuacao(cursor.getString(8));
+            perfilUsuario.setBibliografia(cursor.getString(9));
+            perfilUsuario.setFotoPerfil(Integer.valueOf(cursor.getString(10)));
+        }
+        db.close();
+        return perfilUsuario;
     }
 
     public ArrayList<ListAdvogados> buscarAdvogados() {
 
         ArrayList<ListAdvogados> arrayList = new ArrayList<ListAdvogados>();
-        String[] colunas = new String[]{"_id", "nome", "estado", "cidade", "areaAtuacao", "fotoPerfil"};
+        String[] colunas = new String[]{"id", "nome", "estado", "cidade", "areaAtuacao", "fotoPerfil"};
         Cursor cursor = db.query("advogados", colunas, null, null, null, null, null);
 
         if (cursor.getCount() > 0){
@@ -69,10 +87,10 @@ public class DB {
                 ListAdvogados adv = new ListAdvogados();
                 adv.setId(cursor.getLong(0));
                 adv.setNome(cursor.getString(1));
-                adv.setEstado(cursor.getString(2));
-                adv.setCidade(cursor.getString(3));
-                adv.setAreaAtuacao(cursor.getString(4));
-                adv.setFotoPerfil(Integer.valueOf(cursor.getString(5)));
+                adv.setEstado(cursor.getString(4));
+                adv.setCidade(cursor.getString(5));
+                adv.setAreaAtuacao(cursor.getString(8));
+                adv.setFotoPerfil(Integer.valueOf(cursor.getString(10)));
                 arrayList.add(adv);
 
 

@@ -128,18 +128,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Cidade: "
+                android:text="Estado: "
                 android:textStyle="bold"
                 android:textColor="@color/dourado"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/cidade"
+                android:id="@+id/estado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="São Paulo"
+                android:hint="SP"
                 android:textColorHint="@color/verde"
-                android:textSize="21dp" />
+                android:textSize="21sp" />
 
         </LinearLayout>
 
@@ -153,18 +153,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Estado: "
+                android:text="Cidade: "
                 android:textStyle="bold"
                 android:textColor="@color/dourado"
-                android:textSize="22sp" />
+                android:textSize="22dp" />
 
             <TextView
-                android:id="@+id/estado"
+                android:id="@+id/cidade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="SP"
+                android:hint="São Paulo"
                 android:textColorHint="@color/verde"
-                android:textSize="21sp" />
+                android:textSize="21dp" />
 
         </LinearLayout>
 

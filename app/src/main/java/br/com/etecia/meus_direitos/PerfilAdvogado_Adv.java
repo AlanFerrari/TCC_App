@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,70 +24,58 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
     MaterialToolbar toolbar;
     TextView txtNomeAdvogado,txtEmail, txtTelefone, txtAreaAtuacao, txtCidade, txtEstado, txtRegistro, txtBibliografia;
     PerfilUsuario perfilUsuario = new PerfilUsuario();
-
+    DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_advogado_adv);
 
-        txtNomeAdvogado = findViewById(R.id.nomeAdvogado);
-        txtEmail = findViewById(R.id.email);
-        txtTelefone = findViewById(R.id.telefone);
-        txtAreaAtuacao = findViewById(R.id.area_atuacao);
-        txtCidade = findViewById(R.id.cidade);
-        txtEstado = findViewById(R.id.estado);
-        txtRegistro = findViewById(R.id.registroOAB);
-        txtBibliografia = findViewById(R.id.bibliografia);
-        editarPerfil = findViewById(R.id.btnEditarPerfil);
-
+        db = new DB(this);
         DBHelper DB = new DBHelper(this);
+        Intent intent = getIntent();
 
-        String nome = txtNomeAdvogado.getText().toString();
-        String email = txtEmail.getText().toString();
-        String telefone = txtTelefone.getText().toString();
-        String areaAtuacao = txtAreaAtuacao.getText().toString();
-        String estado = txtEstado.getText().toString();
-        String cidade = txtCidade.getText().toString();
-        String registroOAB = txtRegistro.getText().toString();
-        String bibliografia = txtBibliografia.getText().toString();
+        PerfilUsuario perfilUsuario = (PerfilUsuario) intent.getSerializableExtra("perfilUsuario");
 
-            Boolean perfil = DB.PegarDadosDoBanco(nome, email, telefone, areaAtuacao, estado, cidade, registroOAB, bibliografia);
+        this.txtNomeAdvogado = findViewById(R.id.nomeAdvogado);
+        this.txtEmail = findViewById(R.id.email);
+        this.txtTelefone = findViewById(R.id.telefone);
+        this.txtAreaAtuacao = findViewById(R.id.area_atuacao);
+        this.txtCidade = findViewById(R.id.cidade);
+        this.txtEstado = findViewById(R.id.estado);
+        this.txtRegistro = findViewById(R.id.registroOAB);
+        this.txtBibliografia = findViewById(R.id.bibliografia);
+        this.editarPerfil = findViewById(R.id.btnEditarPerfil);
 
-            if (perfil == true){
-
-                perfilUsuario.setNome(txtNomeAdvogado.getText().toString());
-                perfilUsuario.setEmail(txtEmail.getText().toString());
-                perfilUsuario.setTelefone(Integer.valueOf(txtTelefone.getText().toString()));
-                perfilUsuario.setAreaAtuacao(txtAreaAtuacao.getText().toString());
-                perfilUsuario.setEstado(txtEstado.getText().toString());
-                perfilUsuario.setCidade(txtCidade.getText().toString());
-                perfilUsuario.setNumeroOAB(txtRegistro.getText().toString());
-                perfilUsuario.setBibliografia(txtBibliografia.getText().toString());
-
-
-            } else {
-                Toast.makeText(this, "Falha na obtenção de dados", Toast.LENGTH_SHORT).show();
-            }
-
+        //Recebendo dados do usuario
+        this.txtNomeAdvogado.setText(perfilUsuario.getNome());
+        this.txtEmail.setText(perfilUsuario.getEmail());
+        this.txtTelefone.setText(perfilUsuario.getTelefone());
+        this.txtAreaAtuacao.setText(perfilUsuario.getAreaAtuacao());
+        this.txtEstado.setText(perfilUsuario.getEstado());
+        this.txtCidade.setText(perfilUsuario.getCidade());
+        this.txtRegistro.setText(perfilUsuario.getNumeroOAB());
+        this.txtBibliografia.setText(perfilUsuario.getBibliografia());
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+            startActivity(intent1);
             finish();
         });
 
         editarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), EditarPerfil.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(getApplicationContext(), EditarPerfil.class);
+                intent1.putExtra("perfilUsuario", String.valueOf(perfilUsuario));
+                startActivity(intent1);
                 finish();
             }
         });
+
     }
 
     @Override
