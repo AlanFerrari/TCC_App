@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,38 +51,38 @@ public class EditarPerfil extends AppCompatActivity {
 
         PerfilUsuario perfilUsuario = (PerfilUsuario) intent.getSerializableExtra("perfilUsuario");
 
-        this.voltar = findViewById(R.id.imgVoltar);
-        this.fotoPerfil = findViewById(R.id.fotoPerfil);
-        this.edtnomeAdvogado = findViewById(R.id.nomeAdvogado);
-        this.edtemail = findViewById(R.id.email);
-        this.edttelefone = findViewById(R.id.telefone);
-        this.cidadeSpinner = findViewById(R.id.alterarCidade);
-        this.estadoSpinner = findViewById(R.id.alterarEstado);
-        this.edtregistroOAB = findViewById(R.id.registroOAB);
-        this.edtbibliografia = findViewById(R.id.bibliografia);
-        this.editarFoto = findViewById(R.id.editarFoto);
-        this.alterarPerfil = findViewById(R.id.AlterarPerfil);
+        voltar = findViewById(R.id.imgVoltar);
+        fotoPerfil = findViewById(R.id.fotoPerfil);
+        edtnomeAdvogado = findViewById(R.id.nomeAdvogado);
+        edtemail = findViewById(R.id.email);
+        edttelefone = findViewById(R.id.telefone);
+        cidadeSpinner = findViewById(R.id.alterarCidade);
+        estadoSpinner = findViewById(R.id.alterarEstado);
+        edtregistroOAB = findViewById(R.id.registroOAB);
+        edtbibliografia = findViewById(R.id.bibliografia);
+        editarFoto = findViewById(R.id.editarFoto);
+        alterarPerfil = findViewById(R.id.AlterarPerfil);
 
         //recebendo dados
-        this.edtnomeAdvogado.setText(perfilUsuario.getNome());
-        this.edtemail.setText(perfilUsuario.getEmail());
-        this.edttelefone.setText(perfilUsuario.getTelefone());
-        this.areaAtuacao.add(perfilUsuario.getAreaAtuacao());
-        this.estadoSpinner.setSelection(Integer.parseInt(perfilUsuario.getEstado()));
-        this.cidadeSpinner.setSelection(Integer.parseInt(perfilUsuario.getCidade()));
-        this.edtregistroOAB.setText(perfilUsuario.getNumeroOAB());
-        this.edtbibliografia.setText(perfilUsuario.getBibliografia());
+        edtnomeAdvogado.setText(perfilUsuario.getNome());
+        edtemail.setText(perfilUsuario.getEmail());
+        edttelefone.setText(perfilUsuario.getTelefone());
+        areaAtuacao.add(perfilUsuario.getAreaAtuacao());
+        estadoSpinner.setSelection(Integer.parseInt(perfilUsuario.getEstado()));
+        cidadeSpinner.setSelection(Integer.parseInt(perfilUsuario.getCidade()));
+        edtregistroOAB.setText(perfilUsuario.getNumeroOAB());
+        edtbibliografia.setText(perfilUsuario.getBibliografia());
 
         //instanciando chips das areas de atuação
-        this.civil = findViewById(R.id.chipCivil);
-        this.consumidor = findViewById(R.id.chipConsumidor);
-        this.trabalhista = findViewById(R.id.chipTrabalhista);
-        this.penal = findViewById(R.id.chipPenal);
-        this.empresarial = findViewById(R.id.chipEmpresarial);
-        this.ambiental = findViewById(R.id.chipAmbiental);
-        this.ti = findViewById(R.id.chipTI);
-        this.contratual = findViewById(R.id.chipContratual);
-        this.tributario = findViewById(R.id.chipTributário);
+        civil = findViewById(R.id.chipCivil);
+        consumidor = findViewById(R.id.chipConsumidor);
+        trabalhista = findViewById(R.id.chipTrabalhista);
+        penal = findViewById(R.id.chipPenal);
+        empresarial = findViewById(R.id.chipEmpresarial);
+        ambiental = findViewById(R.id.chipAmbiental);
+        ti = findViewById(R.id.chipTI);
+        contratual = findViewById(R.id.chipContratual);
+        tributario = findViewById(R.id.chipTributário);
 
         selectedChipData = new ArrayList<>();
 
@@ -121,18 +122,6 @@ public class EditarPerfil extends AppCompatActivity {
             }
         });
 
-        editarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent1.setType("image/*");
-                startActivityForResult(intent1, 2);
-
-                db.atualizar(perfilUsuario);
-
-            }
-        });
-
         alterarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,44 +135,22 @@ public class EditarPerfil extends AppCompatActivity {
                 perfilUsuario.setNumeroOAB(edtregistroOAB.getText().toString());
                 perfilUsuario.setAreaAtuacao(areaAtuacao.toString());
                 perfilUsuario.setBibliografia(edtbibliografia.getText().toString());
-                perfilUsuario.setFotoPerfil(Integer.valueOf(String.valueOf(fotoPerfil)));
 
                 if (db.atualizar(perfilUsuario)){
+
                     Intent intent1 = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
 
                     intent1.putExtra("perfilUsuario", String.valueOf(perfilUsuario));
 
+                    Toast.makeText(EditarPerfil.this, "Alteração feita com sucesso", Toast.LENGTH_SHORT).show();
+
                     startActivity(intent1);
                     finish();
 
-                    Snackbar snackbar = Snackbar.make(view, "Alteração feita com sucesso",Snackbar.LENGTH_SHORT);
-                    snackbar.setBackgroundTint(Color.WHITE);
-                    snackbar.setTextColor(Color.BLACK);
-                    snackbar.show();
+                } else {
+                    Toast.makeText(EditarPerfil.this, "Erro ao atualizar os dados", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2){
-            if (resultCode == RESULT_OK){
-
-                Uri imagemSelecionada = getIntent().getData();
-                String[] colunas = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(imagemSelecionada, colunas, null, null, null);
-                cursor.moveToFirst();
-
-                int indexColuna = cursor.getColumnIndex(colunas[0]);
-                String pathImg = cursor.getString(indexColuna);
-                cursor.close();
-
-                Bitmap bitmap = BitmapFactory.decodeFile(pathImg);
-                fotoPerfil.setImageBitmap(bitmap);
-            }
-        }
     }
 }

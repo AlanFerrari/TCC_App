@@ -20,11 +20,26 @@ import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<ListAdvogados> mCartao;
+    String[] nomes;
+    String[] estados;
+    String[] cidades;
+    String[] areas;
+    String[] fotos;
 
     public RecyclerAdapter(Context mContext, ArrayList<ListAdvogados> mCartao) {
         this.mContext = mContext;
         this.mCartao = mCartao;
     }
+
+    public RecyclerAdapter(Context mContext, String[] nomes, String[] estados, String[] cidades, String[] areas, String[] fotos) {
+        this.mContext = mContext;
+        this.nomes = nomes;
+        this.estados = estados;
+        this.cidades = cidades;
+        this.areas = areas;
+        this.fotos = fotos;
+    }
+
 
     @NonNull
     @Override

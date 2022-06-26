@@ -40,7 +40,7 @@ public class CadastroAdvogado extends AppCompatActivity {
     PerfilUsuario perfilUsuario = new PerfilUsuario();
 
     String ultimoCaracterDigitado = "";
-    String[] mensagens = {"Preencha todos os campos", "Cadastro feito com sucesso", "Falha ao cadastrar", "Usuário já está cadastrado"};
+
     Cidades[] municipios = null;
 
     @Override
@@ -62,6 +62,41 @@ public class CadastroAdvogado extends AppCompatActivity {
         spinnerEstado = findViewById(R.id.estadoSpinner);
         spinnerCidade = findViewById(R.id.cidadeSpinner);
         spinnerCidade.setEnabled(true);
+
+        edtTelefone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                Integer tamanhoDoTelefone = Integer.valueOf(edtTelefone.getText().toString().length());
+                if (tamanhoDoTelefone > 1){
+                    ultimoCaracterDigitado = edtTelefone.getText().toString().substring(tamanhoDoTelefone -1);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                Integer tamanhoDoTelefone = Integer.valueOf(edtTelefone.getText().toString().length());
+                if (tamanhoDoTelefone == 2){
+                    if (!ultimoCaracterDigitado.equals(" ")){
+                        edtTelefone.append(" ");
+                    } else {
+                        edtTelefone.getText().delete(tamanhoDoTelefone -1,tamanhoDoTelefone);
+                    }
+
+                } else if (tamanhoDoTelefone == 8){
+                    if (!ultimoCaracterDigitado.equals("-")){
+                        edtTelefone.append("-");
+                    } else {
+                        edtTelefone.getText().delete(tamanhoDoTelefone -1,tamanhoDoTelefone);
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +120,7 @@ public class CadastroAdvogado extends AppCompatActivity {
                 String senha = edtSenha.getText().toString();
 
                 if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(email) || TextUtils.isEmpty(telefone) || TextUtils.isEmpty(estado) || TextUtils.isEmpty(cidade) || TextUtils.isEmpty(registroOAB) || TextUtils.isEmpty(senha)){
-                    Snackbar snackbar = Snackbar.make(view, mensagens[0],Snackbar.LENGTH_SHORT);
-                    snackbar.setBackgroundTint(Color.WHITE);
-                    snackbar.setTextColor(Color.BLACK);
-                    snackbar.show();
+                    Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 } else {
                     Boolean checandoUsuario = dbHelper.checandoEmailDoUsuario(email);
                     if (checandoUsuario == false){
@@ -97,27 +129,26 @@ public class CadastroAdvogado extends AppCompatActivity {
 
                             Intent intent = new Intent(getApplicationContext(), Chip_filtro_areas.class);
 
-                            Snackbar snackbar = Snackbar.make(view, mensagens[1],Snackbar.LENGTH_SHORT);
-                            snackbar.setBackgroundTint(Color.WHITE);
-                            snackbar.setTextColor(Color.BLACK);
-                            snackbar.show();
+                            intent.putExtra("nome", nome);
+                            intent.putExtra("email", email);
+                            intent.putExtra("telefone", telefone);
+                            intent.putExtra("estado", estado);
+                            intent.putExtra("cidade", cidade);
+                            intent.putExtra("registroOAB", registroOAB);
+                            intent.putExtra("senha", senha);
 
-                            LimpaFormulário();
+                            Toast.makeText(getApplicationContext(), "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
 
                             startActivity(intent);
                             finish();
+
                         } else {
-                            Snackbar snackbar = Snackbar.make(view, mensagens[2],Snackbar.LENGTH_SHORT);
-                            snackbar.setBackgroundTint(Color.WHITE);
-                            snackbar.setTextColor(Color.BLACK);
-                            snackbar.show();
+                            Toast.makeText(getApplicationContext(), "Falha ao cadastrar", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Snackbar snackbar = Snackbar.make(view, mensagens[3],Snackbar.LENGTH_SHORT);
-                        snackbar.setBackgroundTint(Color.WHITE);
-                        snackbar.setTextColor(Color.BLACK);
-                        snackbar.show();
+                        Toast.makeText(getApplicationContext(), "Usuário já está cadastrado", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }
         });
@@ -177,18 +208,6 @@ public class CadastroAdvogado extends AppCompatActivity {
 
     }
 
-    private void LimpaFormulário() {
-
-        edtNomeAdvogado.requestFocus();
-        edtNomeAdvogado.setText("");
-        edtEmail.setText("");
-        edtTelefone.setText("");
-        spinnerEstado.setSelection(0);
-        spinnerCidade.setSelection(0);
-        edtRegistroOAB.setText("");
-        edtSenha.setText("");
-    }
-
     //Preenchendo o spinner cidade
     private void solicitarMunicipios(String siglaEstado) {
         String respostaMunicipios = executaApiIBGE("municipio", siglaEstado);
@@ -218,7 +237,7 @@ public class CadastroAdvogado extends AppCompatActivity {
     }
 
     private void solicitarSubdistritos(String idMunicipio) {
-        String respostaSubdistritos = executaApiIBGE("subdistrito", idMunicipio);
+
     }
 
     //Chamando a api do IBGE

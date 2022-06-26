@@ -51,26 +51,24 @@ public class ListaAdvogados extends AppCompatActivity {
 
         DB db = new DB(this);
         ArrayList<ListAdvogados> arrayList = new ArrayList<>();
-        arrayList = db.buscarAdvogados();
+       // arrayList = db.buscarAdvogados();
 
-        RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
+        /*RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
         RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), arrayList);
         mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
-        mrecyclerView.setAdapter(mAdapter);
-        mrecyclerView.setHasFixedSize(true);
+        mrecyclerView.setAdapter(mAdapter);*/
 
 
         spinnerAreas = findViewById(R.id.filtrarArea);
         spinnerEstados = findViewById(R.id.filtrarEstado);
         spinnerCidades = findViewById(R.id.filtrarCidade);
-
         spinnerCidades.setEnabled(false);
 
         imagemfiltro = findViewById(R.id.filtrar);
         cardViewFiltro = findViewById(R.id.cardFiltro);
         buttonFiltrar = findViewById(R.id.bottomFiltrar);
 
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         if (intent != null){
             Bundle bundle = intent.getExtras();
             if (bundle != null){
@@ -83,7 +81,7 @@ public class ListaAdvogados extends AppCompatActivity {
                 adv.setFotoPerfil(Integer.valueOf(bundle.getString("fotoPerfil")));
 
             }
-        }
+        }*/
 
         //Criando um array de areas de trabalho no spinner
         ArrayAdapter<CharSequence> adapterAreas = ArrayAdapter.createFromResource(this, R.array.areas_atuacao, android.R.layout.simple_spinner_item);
@@ -293,4 +291,42 @@ public class ListaAdvogados extends AppCompatActivity {
             }
             return respostaIBGE;
         }
+
+    private void buscaLista(){
+        DB db = new DB(getApplicationContext());
+
+        List<ListAdvogados> advogadosList = db.buscarAdvogados();
+
+        List<String> nomes = new ArrayList<>();
+        List<String> estados = new ArrayList<>();
+        List<String> cidades = new ArrayList<>();
+        List<String> areas = new ArrayList<>();
+        List<String> fotos = new ArrayList<>();
+
+        String[] dados_nomes = new String[]{};
+        String[] dados_estados = new String[]{};
+        String[] dados_cidades = new String[]{};
+        String[] dados_areas = new String[]{};
+        String[] dados_fotos = new String[]{};
+
+        for (ListAdvogados pessoaBuscada : advogadosList){
+
+            nomes.add(pessoaBuscada.getNome());
+            estados.add(pessoaBuscada.getEstado());
+            cidades.add(pessoaBuscada.getCidade());
+            areas.add(pessoaBuscada.getAreaAtuacao());
+            fotos.add(String.valueOf(pessoaBuscada.getFotoPerfil()));
+        }
+
+        dados_nomes = nomes.toArray(new String[0]);
+        dados_estados = estados.toArray(new String[0]);
+        dados_cidades = cidades.toArray(new String[0]);
+        dados_areas = areas.toArray(new String[0]);
+        dados_fotos = fotos.toArray(new String[0]);
+
+        RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), dados_nomes, dados_estados, dados_cidades, dados_areas, dados_fotos);
+        mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        mrecyclerView.setAdapter(mAdapter);
+    }
 }

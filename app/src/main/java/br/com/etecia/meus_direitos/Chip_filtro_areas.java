@@ -3,13 +3,17 @@ package br.com.etecia.meus_direitos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +29,12 @@ public class Chip_filtro_areas extends AppCompatActivity {
     ArrayList<String> areaAtuacao = new ArrayList<>();
     PerfilUsuario perfilUsuario = new PerfilUsuario();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chip_filtro_areas);
 
+        DBHelper dbHelper = new DBHelper(this);
         DB db = new DB(this);
 
         civil = findViewById(R.id.chipCivil);
@@ -45,6 +49,7 @@ public class Chip_filtro_areas extends AppCompatActivity {
 
         bibliografia = findViewById(R.id.bibliografia);
         enviar = findViewById(R.id.btnEnviarAreas);
+
 
         selectedChipData = new ArrayList<>();
 
@@ -77,15 +82,31 @@ public class Chip_filtro_areas extends AppCompatActivity {
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle extras = getIntent().getExtras();
+                String nome = extras.getString("nome");
+                String email = extras.getString("email");
+                String telefone = extras.getString("telefone");
+                String estado = extras.getString("estado");
+                String cidade = extras.getString("cidade");
+                String registroOAB = extras.getString("registroOAB");
+                String senha = extras.getString("senha");
+
+
                 Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
 
+                perfilUsuario.setNome(nome);
+                perfilUsuario.setEmail(email);
+                perfilUsuario.setTelefone(Integer.valueOf(telefone));
+                perfilUsuario.setEstado(estado);
+                perfilUsuario.setCidade(cidade);
+                perfilUsuario.setNumeroOAB(registroOAB);
+                perfilUsuario.setSenha(senha);
                 perfilUsuario.setAreaAtuacao(areaAtuacao.toString());
                 perfilUsuario.setBibliografia(bibliografia.getText().toString());
 
                 db.atualizar(perfilUsuario);
 
-                intent.putExtra("areas", selectedChipData.toString());
-                setResult(101, intent);
                 startActivity(intent);
                 finish();
             }

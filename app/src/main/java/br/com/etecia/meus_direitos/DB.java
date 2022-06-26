@@ -1,5 +1,6 @@
 package br.com.etecia.meus_direitos;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,7 +12,7 @@ import java.util.List;
 import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
-public class DB {
+public class  DB {
     private SQLiteDatabase db;
 
     public DB(Context context) {
@@ -74,27 +75,52 @@ public class DB {
         return perfilUsuario;
     }
 
-    public ArrayList<ListAdvogados> buscarAdvogados() {
+    @SuppressLint("Range")
+    public ArrayList<ListAdvogados> buscarAdvogados(String orderBy) {
 
         ArrayList<ListAdvogados> arrayList = new ArrayList<ListAdvogados>();
-        String[] colunas = new String[]{"id", "nome", "estado", "cidade", "areaAtuacao", "fotoPerfil"};
-        Cursor cursor = db.query("advogados", colunas, null, null, null, null, null);
+        String sql = "SELECT id, nome, estado, cidade, areaAtuacao, fotoPerfil FROM advogados ORDER BY" +orderBy+";";
 
-        if (cursor.getCount() > 0){
-            cursor.moveToFirst();
+        Cursor cursor = db.rawQuery(sql, null);
 
-            do {
-                ListAdvogados adv = new ListAdvogados();
-                adv.setId(cursor.getLong(0));
-                adv.setNome(cursor.getString(1));
-                adv.setEstado(cursor.getString(4));
-                adv.setCidade(cursor.getString(5));
-                adv.setAreaAtuacao(cursor.getString(8));
-                adv.setFotoPerfil(Integer.valueOf(cursor.getString(10)));
-                arrayList.add(adv);
+        List<ListAdvogados> advogadosList = new ArrayList<ListAdvogados>();
 
+        while (cursor.moveToNext()) {
 
-            }while (cursor.moveToNext());
+            ListAdvogados adv = new ListAdvogados();
+
+            adv.setId(cursor.getLong(cursor.getColumnIndex("id")));
+            adv.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+            adv.setEstado(cursor.getString(cursor.getColumnIndex("estado")));
+            adv.setCidade(cursor.getString(cursor.getColumnIndex("cidade")));
+            adv.setAreaAtuacao(cursor.getString(cursor.getColumnIndex("areaAtuacao")));
+            adv.setFotoPerfil(Integer.valueOf(cursor.getString(cursor.getColumnIndex("fotoPerfil"))));
+            advogadosList.add(adv);
+        }
+        return (arrayList);
+    }
+
+    @SuppressLint("Range")
+    public List<ListAdvogados> buscarAdvogados() {
+
+        ArrayList<ListAdvogados> arrayList = new ArrayList<ListAdvogados>();
+        String sql = "SELECT id, nome, estado, cidade, areaAtuacao, fotoPerfil FROM advogados;";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        List<ListAdvogados> advogadosList = new ArrayList<ListAdvogados>();
+
+        while (cursor.moveToNext()) {
+
+            ListAdvogados adv = new ListAdvogados();
+
+            adv.setId(cursor.getLong(cursor.getColumnIndex("id")));
+            adv.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+            adv.setEstado(cursor.getString(cursor.getColumnIndex("estado")));
+            adv.setCidade(cursor.getString(cursor.getColumnIndex("cidade")));
+            adv.setAreaAtuacao(cursor.getString(cursor.getColumnIndex("areaAtuacao")));
+            adv.setFotoPerfil(Integer.valueOf(cursor.getString(cursor.getColumnIndex("fotoPerfil"))));
+            advogadosList.add(adv);
         }
         return (arrayList);
     }

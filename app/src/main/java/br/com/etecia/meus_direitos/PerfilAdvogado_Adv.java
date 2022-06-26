@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
 
     Button editarPerfil;
     MaterialToolbar toolbar;
+    ImageView fotoPerfil;
     TextView txtNomeAdvogado,txtEmail, txtTelefone, txtAreaAtuacao, txtCidade, txtEstado, txtRegistro, txtBibliografia;
     PerfilUsuario perfilUsuario = new PerfilUsuario();
     DB db;
@@ -37,25 +39,27 @@ public class PerfilAdvogado_Adv extends AppCompatActivity {
 
         PerfilUsuario perfilUsuario = (PerfilUsuario) intent.getSerializableExtra("perfilUsuario");
 
-        this.txtNomeAdvogado = findViewById(R.id.nomeAdvogado);
-        this.txtEmail = findViewById(R.id.email);
-        this.txtTelefone = findViewById(R.id.telefone);
-        this.txtAreaAtuacao = findViewById(R.id.area_atuacao);
-        this.txtCidade = findViewById(R.id.cidade);
-        this.txtEstado = findViewById(R.id.estado);
-        this.txtRegistro = findViewById(R.id.registroOAB);
-        this.txtBibliografia = findViewById(R.id.bibliografia);
-        this.editarPerfil = findViewById(R.id.btnEditarPerfil);
+        txtNomeAdvogado = findViewById(R.id.nomeAdvogado);
+        txtEmail = findViewById(R.id.email);
+        txtTelefone = findViewById(R.id.telefone);
+        txtAreaAtuacao = findViewById(R.id.area_atuacao);
+        txtCidade = findViewById(R.id.cidade);
+        txtEstado = findViewById(R.id.estado);
+        txtRegistro = findViewById(R.id.registroOAB);
+        txtBibliografia = findViewById(R.id.bibliografia);
+        editarPerfil = findViewById(R.id.btnEditarPerfil);
+        fotoPerfil = findViewById(R.id.fotoPerfil);
 
         //Recebendo dados do usuario
-        this.txtNomeAdvogado.setText(perfilUsuario.getNome());
-        this.txtEmail.setText(perfilUsuario.getEmail());
-        this.txtTelefone.setText(perfilUsuario.getTelefone());
-        this.txtAreaAtuacao.setText(perfilUsuario.getAreaAtuacao());
-        this.txtEstado.setText(perfilUsuario.getEstado());
-        this.txtCidade.setText(perfilUsuario.getCidade());
-        this.txtRegistro.setText(perfilUsuario.getNumeroOAB());
-        this.txtBibliografia.setText(perfilUsuario.getBibliografia());
+        txtNomeAdvogado.setText(perfilUsuario.getNome());
+        txtEmail.setText(perfilUsuario.getEmail());
+        txtTelefone.setText(perfilUsuario.getTelefone());
+        txtAreaAtuacao.setText(perfilUsuario.getAreaAtuacao());
+        txtEstado.setText(perfilUsuario.getEstado());
+        txtCidade.setText(perfilUsuario.getCidade());
+        txtRegistro.setText(perfilUsuario.getNumeroOAB());
+        txtBibliografia.setText(perfilUsuario.getBibliografia());
+
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
