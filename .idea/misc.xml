@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_cadastro_advogado.xml" value="0.25" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_chip_filtro_areas.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_editar_perfil.xml" value="0.26871794871794874" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_lista_advogados.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_informacoes_cli.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_lista_advogados.xml" value="0.12585034013605442" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_login.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_perfil_advogado_adv.xml" value="0.33" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_perfil_advogado_adv.xml" value="0.25" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/activity_perfil_advogados_cli.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_App/app/src/main/res/layout/modelo_lista_advogado.xml" value="0.18611111111111112" />
         <entry key="..\:/Users/Alan/Documents/TrabalhoPAM/TCC_MeusDireitos/app/src/main/res/drawable/borda.xml" value="0.1665" />

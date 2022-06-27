@@ -12,9 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Meus_Direitos">
+
+        <activity android:name=".EditarPerfil"
+            android:exported="true" />
         <activity
             android:name=".Perfil_Advogados_Cli"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Chip_filtro_areas"
             android:exported="true" />

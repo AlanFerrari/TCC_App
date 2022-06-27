@@ -35,15 +35,16 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/perfil_circulo"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_account_circle" />
+            android:src="@drawable/marcelo" />
 
         <TextView
             android:id="@+id/nomeAdvogado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Marcelo Abdalla Kilsan"
             android:layout_gravity="center_horizontal"
-            android:hint="Nome da Pessoa"
-            android:textColorHint="@color/verde"
+            android:textColor="@color/verde"
             android:textSize="30dp" />
 
         <LinearLayout
@@ -65,9 +66,9 @@
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="marceloabdalla@gmail.com "
                 android:layout_marginRight="20dp"
-                android:hint="meusdireitos@direitos.com"
-                android:textColorHint="@color/verde"
+                android:textColor="@color/verde"
                 android:textSize="21sp" />
 
         </LinearLayout>
@@ -91,9 +92,9 @@
                 android:id="@+id/telefone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="11 958247487"
                 android:layout_marginRight="20dp"
-                android:hint="(11) 91234-5678"
-                android:textColorHint="@color/verde"
+                android:textColor="@color/verde"
                 android:textSize="21sp" />
 
         </LinearLayout>
@@ -114,9 +115,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Civil, Trabalhista, Consumidor"
             android:layout_marginRight="20dp"
-            android:hint="Direito Civil, Direito Trabalhista e Direito do Cosumidor"
-            android:textColorHint="@color/verde"
+            android:textColor="@color/verde"
             android:textSize="21sp" />
 
         <LinearLayout
@@ -138,8 +140,8 @@
                 android:id="@+id/estado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="SP"
-                android:textColorHint="@color/verde"
+                android:text="SP"
+                android:textColor="@color/verde"
                 android:textSize="21sp" />
 
         </LinearLayout>
@@ -163,8 +165,8 @@
                 android:id="@+id/cidade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="São Paulo"
-                android:textColorHint="@color/verde"
+                android:text="São Paulo"
+                android:textColor="@color/verde"
                 android:textSize="21dp" />
 
         </LinearLayout>
@@ -188,9 +190,9 @@
                 android:id="@+id/registroOAB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="SP 308883"
                 android:layout_marginRight="20dp"
-                android:hint="SP 00000 - Definitivo"
-                android:textColorHint="@color/verde"
+                android:textColor="@color/verde"
                 android:textSize="21sp" />
 
         </LinearLayout>
@@ -211,9 +213,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:text="Trabalho na área a 5 anos, atuo com maior frequência casos no ramo civil que envolvem varas de familia, divorcio, e bens herdados."
             android:layout_marginRight="20dp"
-            android:hint="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-            android:textColorHint="@color/verde"
+            android:textColor="@color/verde"
             android:textSize="21sp" />
 
             <Button

@@ -37,11 +37,10 @@
             android:src="@drawable/ic_account_circle" />
 
         <TextView
-            android:id="@+id/nomeAdvogado"
+            android:id="@+id/nomeAdvogadoCli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Nome da Pessoa"
             android:textColor="@color/verde"
             android:textSize="30dp" />
 
@@ -61,11 +60,10 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/email"
+                android:id="@+id/emailCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:hint="meusdireitos@direitos.com"
                 android:textColorHint="@color/verde"
                 android:textSize="21sp" />
 
@@ -87,11 +85,10 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/telefone"
+                android:id="@+id/telefoneCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:hint="(11) 91234-5678"
                 android:textColorHint="@color/verde"
                 android:textSize="21sp" />
 
@@ -108,13 +105,12 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/area_atuacao"
+            android:id="@+id/area_atuacaoCli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
-            android:hint="Direito Civil, Direito Trabalhista e Direito do Cosumidor"
             android:textColorHint="@color/verde"
             android:textSize="21sp" />
 
@@ -134,10 +130,9 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/estado"
+                android:id="@+id/estadoCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="SP"
                 android:textColorHint="@color/verde"
                 android:textSize="21sp" />
 
@@ -159,10 +154,9 @@
                 android:textSize="22dp" />
 
             <TextView
-                android:id="@+id/cidade"
+                android:id="@+id/cidadeCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="São Paulo"
                 android:textColorHint="@color/verde"
                 android:textSize="21dp" />
 
@@ -184,11 +178,10 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/registroOAB"
+                android:id="@+id/registroOABCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:hint="SP 00000 - Definitivo"
                 android:textColorHint="@color/verde"
                 android:textSize="21sp" />
 
@@ -205,12 +198,12 @@
             android:textSize="22sp" />
 
         <TextView
+            android:id="@+id/bibliografiaCli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
-            android:hint="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
             android:textColorHint="@color/verde"
             android:textSize="21sp" />
 

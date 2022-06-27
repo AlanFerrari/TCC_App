@@ -6,9 +6,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import br.com.etecia.meus_direitos.objetos.API_IBGE;
-import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 import br.com.etecia.meus_direitos.objetos.Cidades;
 import br.com.etecia.meus_direitos.objetos.Estados;
 
@@ -40,24 +39,30 @@ public class ListaAdvogados extends AppCompatActivity {
     ImageView imagemfiltro;
     CardView cardViewFiltro;
     Button buttonFiltrar;
-    ListAdvogados adv = new ListAdvogados();
+    Context context;
 
     Cidades[] municipios = null;
+
+  /*  List<Advogados> advogadosList = new ArrayList<>();
+
+    List<String> nomes = new ArrayList<String>();
+    List<String> estados = new ArrayList<String>();
+    List<String> cidades = new ArrayList<String>();
+    List<String> areas = new ArrayList<String>();
+
+    String[] dados_nomes = new String[]{};
+    String[] dados_estados = new String[]{};
+    String[] dados_cidades = new String[]{};
+    String[] dados_areas = new String[]{};
+*/
+    ArrayList<Advogados> lstAdvogados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_advogados);
 
-        DB db = new DB(this);
-        ArrayList<ListAdvogados> arrayList = new ArrayList<>();
-       // arrayList = db.buscarAdvogados();
-
-        /*RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
-        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), arrayList);
-        mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
-        mrecyclerView.setAdapter(mAdapter);*/
-
+        context = getApplicationContext();
 
         spinnerAreas = findViewById(R.id.filtrarArea);
         spinnerEstados = findViewById(R.id.filtrarEstado);
@@ -68,20 +73,23 @@ public class ListaAdvogados extends AppCompatActivity {
         cardViewFiltro = findViewById(R.id.cardFiltro);
         buttonFiltrar = findViewById(R.id.bottomFiltrar);
 
-       /* Intent intent = getIntent();
-        if (intent != null){
-            Bundle bundle = intent.getExtras();
-            if (bundle != null){
+        //buscaLista("nome");
 
-                adv.setId(bundle.getLong("id"));
-                adv.setNome(bundle.getString("nome"));
-                adv.setEstado(bundle.getString("estado"));
-                adv.setCidade(bundle.getString("cidade"));
-                adv.setAreaAtuacao(bundle.getString("areaAtuacao"));
-                adv.setFotoPerfil(Integer.valueOf(bundle.getString("fotoPerfil")));
+        lstAdvogados = new ArrayList<>();
 
-            }
-        }*/
+        lstAdvogados.add(new Advogados("Marcelo Abdalla Kilsan", "SP","São Paulo", "Civil, Trabalhista, Consumidor", R.drawable.marcelo));
+        lstAdvogados.add(new Advogados("Fatima Abibe Ferrarezi", "SP", "São Paulo", "Penal, Tributária, TI", R.drawable.fatima));
+        lstAdvogados.add(new Advogados("Bruna Abrantes Flor da Silva", "SP","São Paulo", "Trabalhista, Civil, TI", R.drawable.bruna));
+        lstAdvogados.add(new Advogados("Patrick Aguiar Bernardo", "SP", "São Paulo", "Contratual, Ambiental", R.drawable.patrick));
+        lstAdvogados.add(new Advogados("Simone Abrão Giacummo", "SP", "São Paulo", "Empresarial, Contratual", R.drawable.simone));
+        lstAdvogados.add(new Advogados("Paulo Abreu Junior", "SP", "São Paulo", "Civil, Consumidor", R.drawable.paulo));
+        lstAdvogados.add(new Advogados("Sandra Abate Murcia", "SP", "São Paulo", "Penal, Tributária, TI", R.drawable.sandra));
+        lstAdvogados.add(new Advogados("Sebastiao Abilio da Silva", "SP", "São Paulo", "Civil, Trabalhista, Consumidor", R.drawable.sebastiao));
+
+        RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
+        mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), lstAdvogados);
+        mrecyclerView.setAdapter(mAdapter);
 
         //Criando um array de areas de trabalho no spinner
         ArrayAdapter<CharSequence> adapterAreas = ArrayAdapter.createFromResource(this, R.array.areas_atuacao, android.R.layout.simple_spinner_item);
@@ -113,28 +121,42 @@ public class ListaAdvogados extends AppCompatActivity {
         spinnerAreas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Item clicado", String.valueOf(spinnerAreas.getSelectedItem()));
-                switch (position){
+               /* switch (position){
                     case 0:
-
+                        buscaLista("nome");
                         break;
                     case 1:
+                        buscaLista("nome");
                         break;
+
                     case 2:
+                        buscaLista("nome");
                         break;
+
                     case 4:
+                        buscaLista("nome");
                         break;
+
                     case 5:
+                        buscaLista("nome");
                         break;
+
                     case 6:
+                        buscaLista("nome");
                         break;
+
                     case 7:
+                        buscaLista("nome");
                         break;
+
                     case 8:
+                        buscaLista("nome");
                         break;
+
                     case 9:
+                        buscaLista("nome");
                         break;
-                }
+                }*/
 
             }
 
@@ -150,6 +172,7 @@ public class ListaAdvogados extends AppCompatActivity {
                 for (Estados estado : estados) {
                     if (estado.getNome().equals(spinnerEstados.getSelectedItem().toString())) {
                         solicitarMunicipios(estado.getSigla());
+                       // buscaLista("estado");
                     }
                 }
             }
@@ -166,6 +189,7 @@ public class ListaAdvogados extends AppCompatActivity {
                 for (Cidades cidade : municipios) {
                     if (cidade.getNome().equals(spinnerCidades.getSelectedItem().toString())) {
                         solicitarSubdistritos(String.valueOf(cidade.getId()));
+                        //buscaLista("cidade");
                     }
                 }
             }
@@ -176,18 +200,17 @@ public class ListaAdvogados extends AppCompatActivity {
             }
         });
 
+        final int[] clique = {1};
+
         buttonFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String area = spinnerAreas.getSelectedItem().toString();
-                String estado = spinnerEstados.getSelectedItem().toString();
-                String cidade = spinnerCidades.getSelectedItem().toString();
-                System.out.println(area + estado + cidade);
+                //Intent intent1 = new Intent(getApplicationContext(), ListaAdvogados.class);
+                clique[0] = 0;
+                //startActivity(intent1);
+                //finish();
             }
         });
-
-        final int[] clique = {1};
 
         imagemfiltro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,57 +299,44 @@ public class ListaAdvogados extends AppCompatActivity {
         String respostaSubdistritos = executaApiIBGE("subdistrito", idMunicipio);
     }
 
-        private String executaApiIBGE (String... params) {
-            API_IBGE api_ibge = new API_IBGE();
+    private String executaApiIBGE (String... params) {
+        API_IBGE api_ibge = new API_IBGE();
 
-            String respostaIBGE = null;
+        String respostaIBGE = null;
 
-            try {
-                respostaIBGE = api_ibge.execute(params).get();
+        try {
+            respostaIBGE = api_ibge.execute(params).get();
 
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return respostaIBGE;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return respostaIBGE;
+    }
 
-    private void buscaLista(){
-        DB db = new DB(getApplicationContext());
+  /*  private void buscaLista(String orderBy){
 
-        List<ListAdvogados> advogadosList = db.buscarAdvogados();
+        DBHelper db = new DBHelper(getApplicationContext());
+        //advogadosList = db.buscarAdvogados(orderBy);
 
-        List<String> nomes = new ArrayList<>();
-        List<String> estados = new ArrayList<>();
-        List<String> cidades = new ArrayList<>();
-        List<String> areas = new ArrayList<>();
-        List<String> fotos = new ArrayList<>();
-
-        String[] dados_nomes = new String[]{};
-        String[] dados_estados = new String[]{};
-        String[] dados_cidades = new String[]{};
-        String[] dados_areas = new String[]{};
-        String[] dados_fotos = new String[]{};
-
-        for (ListAdvogados pessoaBuscada : advogadosList){
+        for (Advogados pessoaBuscada : advogadosList){
 
             nomes.add(pessoaBuscada.getNome());
             estados.add(pessoaBuscada.getEstado());
             cidades.add(pessoaBuscada.getCidade());
             areas.add(pessoaBuscada.getAreaAtuacao());
-            fotos.add(String.valueOf(pessoaBuscada.getFotoPerfil()));
         }
 
         dados_nomes = nomes.toArray(new String[0]);
         dados_estados = estados.toArray(new String[0]);
         dados_cidades = cidades.toArray(new String[0]);
         dados_areas = areas.toArray(new String[0]);
-        dados_fotos = fotos.toArray(new String[0]);
 
         RecyclerView mrecyclerView = findViewById(R.id.recycler_view_lista);
-        RecyclerAdapter mAdapter = new RecyclerAdapter(getApplicationContext(), dados_nomes, dados_estados, dados_cidades, dados_areas, dados_fotos);
         mrecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
+        RecyclerAdapter mAdapter = new RecyclerAdapter(context, dados_nomes, dados_estados, dados_cidades, dados_areas);
         mrecyclerView.setAdapter(mAdapter);
-    }
+
+    }*/
 }

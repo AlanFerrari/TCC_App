@@ -4,76 +4,122 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class DBHelper extends SQLiteOpenHelper {
-    
-    public static final String DBNAME = "meusdireitos";
-    public DBHelper(Context context){
-        super(context, "meusdireitos", null, 1);
+
+    public DBHelper(Context context) {
+        super(context, "meusdireitos", null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE advogados" +
-                        "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "nome VARCHAR(50) NOT NULL, " +
-                        "email VARCHAR(50) NOT NULL, " +
-                        "telefone Integer NOT NULL, " +
-                        "estado VARCHAR(20) NOT NULL, " +
-                        "cidade VARCHAR(30) NOT NULL, " +
-                        "numeroOAB VARCHAR(20) NOT NULL, " +
-                        "senha TEXT NOT NULL," +
-                        "areaAtuacao VARCHAR(100)," +
-                        "bibliografia VARCHAR(500)," +
-                        "fotoPerfil INTEGER);");
+        String sql_advogados = "CREATE TABLE advogados (idAdvogado INTERGER PRIMARY KEY, " +
+                "nome TEXT , " +
+                "email TEXT UNIQUE, " +
+                "telefone String, " +
+                "estado TEXT, " +
+                "cidade TEXT, " +
+                "numeroOAB TEXT, " +
+                "senha TEXT);";
+        String sql_areas = "CREATE TABLE areas (idUsuario INTERGER PRIMARY KEY, " +
+                "areaAtuacao TEXT, " +
+                "bibliografia TEXT, " +
+                "idAdvogado TEXT, " +
+                "FOREIGN KEY (idAdvogado) REFERENCES advogados(idAdvodo));";
+
+        db.execSQL(sql_advogados);
+        db.execSQL(sql_areas);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS advogados;");
+        String sql_upgrade_advogados = "DROP TABLE IF EXISTS advogados;";
+        String sql_upgrade_areas = "DROP TABLE IF EXISTS areas;";
+        db.execSQL(sql_upgrade_advogados);
+        db.execSQL(sql_upgrade_areas);
         onCreate(db);
     }
 
-    public Boolean Cadastro(PerfilUsuario perfilUsuario){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put("nome", perfilUsuario.getNome());
-        values.put("email", perfilUsuario.getEmail());
-        values.put("telefone", perfilUsuario.getTelefone());
-        values.put("estado", perfilUsuario.getEstado());
-        values.put("cidade", perfilUsuario.getCidade());
-        values.put("numeroOAB", perfilUsuario.getNumeroOAB());
-        values.put("senha", perfilUsuario.getSenha());
-
-        long result = db.insert("advogados", null, values);
-        if (result == -1) return false;
-        else
-            return true;
-    }
-    public Boolean checandoEmailDoUsuario(String email){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE email = ?", new  String[] {email});
-        if (cursor.getCount() > 0)
-            return true;
-        else
-            return false;
-    }
-    public Boolean checandoEmailESenhaDoUsuario(String email, String senha){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM advogados WHERE email = ? AND senha = ?", new  String[] {email, senha});
-        if (cursor.getCount() > 0)
-            return true;
-        else
-            return false;
+    public String autenticaUsuario(PerfilUsuario perfilUsuario) {
+        SQLiteDatabase db = getReadableDatabase();
+        String slq_buscaUsuario = "SELECT * FROM usuario WHERE usuario_email = " + "'" + perfilUsuario.getEmail() + "'";
+        Cursor cursor = db.rawQuery(slq_buscaUsuario, null);
+        while (cursor.moveToNext()) {
+            if (perfilUsuario.getEmail().equals(cursor.getColumnIndex("usuario_email"))) {
+                if (perfilUsuario.getSenha().equals(cursor.getColumnIndex("usuario_senha"))) {
+                    return "login efetuado com sucesso";
+                }
+            }
+        }
+        db.close();
+        cursor.close();
+        return "Dados inválidos";
     }
 
+    public void inserirDados(PerfilUsuario perfilUsuario) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = new ContentValues();
+
+        dados.put("nome", perfilUsuario.getNome());
+        dados.put("email", perfilUsuario.getEmail());
+        dados.put("telefone", perfilUsuario.getEmail());
+        dados.put("estado", perfilUsuario.getEstado());
+        dados.put("cidade", perfilUsuario.getCidade());
+        dados.put("numeroOAB", perfilUsuario.getNumeroOAB());
+        dados.put("senha", perfilUsuario.getSenha());
+
+        try {
+            db.insertOrThrow("advogados", null, dados);
+
+        } catch (SQLiteConstraintException e) {
+            db.update("advogados", dados, "email = ?", new String[]{perfilUsuario.getEmail()});
+        }
+
+    }
+
+    public void areasEbibliografia(PerfilUsuario perfilUsuario) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = new ContentValues();
+
+        dados.put("areaAtuacao", perfilUsuario.getAreaAtuacao());
+        dados.put("bibliografia", perfilUsuario.getBibliografia());
+
+        try {
+            db.insertOrThrow("advogados", null, dados);
+
+        } catch (SQLiteConstraintException e) {
+            db.update("advogados", dados, "email = ?", new String[]{perfilUsuario.getEmail()});
+        }
+
+    }
+
+    @SuppressLint("Range")
+    public void buscarAdvogados(String orderBy) {
+
+        String sql = "SELECT nome, estado, cidade, areaAtuacao FROM advogados ORDER BY areaAtuacao, estado, cidade;";
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<Advogados> advogadosList = new ArrayList<Advogados>();
+        Cursor cursor = db.rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+/*
+            Advogados adv = new Advogados();
+            adv.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+            adv.setEstado(cursor.getString(cursor.getColumnIndex("estado")));
+            adv.setCidade(cursor.getString(cursor.getColumnIndex("cidade")));
+            adv.setAreaAtuacao(cursor.getString(cursor.getColumnIndex("areaAtuacao")));
+            advogadosList.add(adv);
+
+        return (advogadosList);*/
+        }
+    }
 }

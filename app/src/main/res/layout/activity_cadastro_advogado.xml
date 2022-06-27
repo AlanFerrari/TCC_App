@@ -64,7 +64,7 @@
         <EditText
             android:id="@+id/telefone"
             style="@style/Edit_Text"
-            android:inputType="number"
+            android:inputType="phone"
             android:background="@drawable/borda"
             android:drawableEnd="@drawable/ic_phone_android"
             android:maxLength="15"
@@ -97,7 +97,7 @@
         <EditText
             android:id="@+id/registroOAB"
             style="@style/Edit_Text"
-            android:inputType="textWebPassword"
+            android:inputType="text"
             android:drawableEnd="@drawable/ic_baseline_work"
             android:background="@drawable/borda"
             android:hint="Número de Registro no OAB"/>

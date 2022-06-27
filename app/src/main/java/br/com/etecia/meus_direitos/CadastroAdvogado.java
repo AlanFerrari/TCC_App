@@ -3,11 +3,8 @@ package br.com.etecia.meus_direitos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,7 +24,6 @@ import java.util.concurrent.ExecutionException;
 import br.com.etecia.meus_direitos.objetos.API_IBGE;
 import br.com.etecia.meus_direitos.objetos.Cidades;
 import br.com.etecia.meus_direitos.objetos.Estados;
-import br.com.etecia.meus_direitos.objetos.ListAdvogados;
 import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
 public class CadastroAdvogado extends AppCompatActivity {
@@ -37,9 +32,6 @@ public class CadastroAdvogado extends AppCompatActivity {
     ImageView voltar;
     EditText edtNomeAdvogado, edtEmail, edtTelefone, edtRegistroOAB, edtSenha;
     Spinner spinnerEstado, spinnerCidade;
-    PerfilUsuario perfilUsuario = new PerfilUsuario();
-
-    String ultimoCaracterDigitado = "";
 
     Cidades[] municipios = null;
 
@@ -47,9 +39,6 @@ public class CadastroAdvogado extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_advogado);
-
-        DBHelper dbHelper = new DBHelper(this);
-        DB db = new DB(this);
 
         btnCadastrarAdvogado = findViewById(R.id.btncadastrarAdvogado);
         voltar = findViewById(R.id.imgVoltar);
@@ -63,41 +52,6 @@ public class CadastroAdvogado extends AppCompatActivity {
         spinnerCidade = findViewById(R.id.cidadeSpinner);
         spinnerCidade.setEnabled(true);
 
-        edtTelefone.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-                Integer tamanhoDoTelefone = Integer.valueOf(edtTelefone.getText().toString().length());
-                if (tamanhoDoTelefone > 1){
-                    ultimoCaracterDigitado = edtTelefone.getText().toString().substring(tamanhoDoTelefone -1);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                Integer tamanhoDoTelefone = Integer.valueOf(edtTelefone.getText().toString().length());
-                if (tamanhoDoTelefone == 2){
-                    if (!ultimoCaracterDigitado.equals(" ")){
-                        edtTelefone.append(" ");
-                    } else {
-                        edtTelefone.getText().delete(tamanhoDoTelefone -1,tamanhoDoTelefone);
-                    }
-
-                } else if (tamanhoDoTelefone == 8){
-                    if (!ultimoCaracterDigitado.equals("-")){
-                        edtTelefone.append("-");
-                    } else {
-                        edtTelefone.getText().delete(tamanhoDoTelefone -1,tamanhoDoTelefone);
-                    }
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,50 +60,54 @@ public class CadastroAdvogado extends AppCompatActivity {
                 finish();
             }
         });
+
+        final String[] valor1 = {null};
+        final String[] valor2 = {null};
+
         //Cadastrando um novo usuario
         btnCadastrarAdvogado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(edtNomeAdvogado.getText().toString()) || TextUtils.isEmpty(edtEmail.getText().toString()) || TextUtils.isEmpty(edtTelefone.getText().toString()) ||
+                        spinnerEstado.getSelectedItem().equals(0) || spinnerCidade.getSelectedItem().equals(0) || TextUtils.isEmpty(edtRegistroOAB.getText().toString()) || TextUtils.isEmpty(edtSenha.getText().toString())){
 
-                String nome = edtNomeAdvogado.getText().toString();
-                String email = edtEmail.getText().toString();
-                String telefone = edtTelefone.getText().toString();
-                String estado = spinnerEstado.getSelectedItem().toString();
-                String cidade = spinnerCidade.getSelectedItem().toString();
-                String registroOAB = edtRegistroOAB.getText().toString();
-                String senha = edtSenha.getText().toString();
-
-                if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(email) || TextUtils.isEmpty(telefone) || TextUtils.isEmpty(estado) || TextUtils.isEmpty(cidade) || TextUtils.isEmpty(registroOAB) || TextUtils.isEmpty(senha)){
                     Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Boolean checandoUsuario = dbHelper.checandoEmailDoUsuario(email);
-                    if (checandoUsuario == false){
-                        Boolean inserirDados = dbHelper.Cadastro(perfilUsuario);
-                        if (inserirDados == true){
 
-                            Intent intent = new Intent(getApplicationContext(), Chip_filtro_areas.class);
+                    DBHelper db = new DBHelper(getApplicationContext());
+                    PerfilUsuario perfilUsuario = new PerfilUsuario();
+                    valor1[0] = (String) spinnerEstado.getSelectedItem();
+                    valor2[0] = (String) spinnerCidade.getSelectedItem();
 
-                            intent.putExtra("nome", nome);
-                            intent.putExtra("email", email);
-                            intent.putExtra("telefone", telefone);
-                            intent.putExtra("estado", estado);
-                            intent.putExtra("cidade", cidade);
-                            intent.putExtra("registroOAB", registroOAB);
-                            intent.putExtra("senha", senha);
+                    Intent intent = new Intent(getApplicationContext(), Chip_filtro_areas.class);
 
-                            Toast.makeText(getApplicationContext(), "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
+                    perfilUsuario.setNome(edtNomeAdvogado.getText().toString());
+                    perfilUsuario.setEmail(edtEmail.getText().toString());
+                    perfilUsuario.setTelefone(edtTelefone.getText().toString());
+                    perfilUsuario.setEstado(valor1.toString());
+                    perfilUsuario.setCidade(valor2.toString());
+                    perfilUsuario.setNumeroOAB(edtRegistroOAB.getText().toString());
+                    perfilUsuario.setSenha(edtSenha.getText().toString());
+                    db.inserirDados(perfilUsuario);
+                    db.close();
 
-                            startActivity(intent);
-                            finish();
+                    System.out.println(perfilUsuario.getNome());
+                    System.out.println(perfilUsuario.getEmail());
+                    System.out.println(perfilUsuario.getTelefone());
+                    System.out.println(perfilUsuario.getEstado());
+                    System.out.println(perfilUsuario.getCidade());
+                    System.out.println(perfilUsuario.getSenha());
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Falha ao cadastrar", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Usuário já está cadastrado", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getApplicationContext(), "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
+
+                    System.out.println(perfilUsuario);
+                    startActivity(intent);
+                    finish();
 
                 }
+
+
             }
         });
 

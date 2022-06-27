@@ -16,4 +16,10 @@
         <item>Tributário</item>
     </string-array>
 
+
+    <string-array name="estados">
+        <item>Selecione um estado</item>
+        <item>São Paulo</item>
+    </string-array>
+
 </resources>

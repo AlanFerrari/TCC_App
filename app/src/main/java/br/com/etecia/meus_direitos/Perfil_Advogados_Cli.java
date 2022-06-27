@@ -1,8 +1,5 @@
 package br.com.etecia.meus_direitos;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -23,49 +23,56 @@ public class Perfil_Advogados_Cli extends AppCompatActivity {
     TextView txtNomeAdvogado;
     TextView txtEmail;
     TextView txtTelefone;
+    TextView txtAreaAtuacao;
     TextView txtCidade;
     TextView txtEstado;
     TextView txtRegistro;
-
-    Button whatsapp;
+    TextView txtBibliografia;
+    Button botaoWhatsapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_advogados_cli);
 
-        txtNomeAdvogado =  findViewById(R.id.nomeAdvogado);
-        txtEmail =  findViewById(R.id.email);
-        txtTelefone =  findViewById(R.id.telefone);
-        txtCidade = findViewById(R.id.cidade);
-        txtEstado = findViewById(R.id.estado);
-        txtRegistro = findViewById(R.id.registroOAB);
-        whatsapp = findViewById(R.id.Whatsapp);
+        txtNomeAdvogado =  findViewById(R.id.nomeAdvogadoCli);
+        txtEmail =  findViewById(R.id.emailCli);
+        txtTelefone =  findViewById(R.id.telefoneCli);
+        txtCidade = findViewById(R.id.cidadeCli);
+        txtEstado = findViewById(R.id.estadoCli);
+        txtRegistro = findViewById(R.id.registroOABCli);
+        txtBibliografia = findViewById(R.id.bibliografiaCli);
+        txtAreaAtuacao = findViewById(R.id.area_atuacaoCli);
+        botaoWhatsapp = findViewById(R.id.Whatsapp);
 
-      /*  PerfilUsuario user = SharedPrefManager.getInstance(this).getUser();
 
+        //Recebendo dados do usuario
+        PerfilUsuario perfilUsuario = new PerfilUsuario();
 
-        txtNomeAdvogado.setText(user.getNome());
-        txtEmail.setText(user.getEmail());
-        txtTelefone.setText(user.getTelefone());
-        txtCidade.setText(user.getCidade());
-        txtEstado.setText(user.getEstado());
-        txtRegistro.setText(user.getNumeroOAB());*/
+        perfilUsuario.setNome(txtNomeAdvogado.getText().toString());
+        perfilUsuario.setEmail(txtEmail.getText().toString());
+        perfilUsuario.setTelefone(txtTelefone.getText().toString());
+        perfilUsuario.setEstado(txtEstado.getText().toString());
+        perfilUsuario.setCidade(txtCidade.getText().toString());
+        perfilUsuario.setNumeroOAB(txtRegistro.getText().toString());
+        perfilUsuario.setAreaAtuacao(txtAreaAtuacao.getText().toString());
+        perfilUsuario.setBibliografia(txtBibliografia.getText().toString());
+
 
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent1);
             finish();
         });
 
         String fone = txtTelefone.getText().toString();
-        whatsapp.setOnClickListener(new View.OnClickListener() {
+        botaoWhatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://api.whatsapp.com/send?phone=" + "055" + fone + "&text=Solicito%20Suporte%20Aplicativo%20Ibi-System";
+                String url = "https://api.whatsapp.com/send?phone=" + "055" + fone;
                 Intent conversar = new Intent(Intent.ACTION_VIEW);
                 conversar.setData(Uri.parse(url));
                 startActivity(conversar);

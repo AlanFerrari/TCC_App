@@ -14,32 +14,32 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-
-import br.com.etecia.meus_direitos.objetos.ListAdvogados;
+import java.util.Arrays;
+import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
-    private Context mContext;
-    private ArrayList<ListAdvogados> mCartao;
-    String[] nomes;
-    String[] estados;
-    String[] cidades;
-    String[] areas;
-    String[] fotos;
 
-    public RecyclerAdapter(Context mContext, ArrayList<ListAdvogados> mCartao) {
+    private Context mContext;
+    private ArrayList<Advogados> mCartao;
+
+    public RecyclerAdapter(Context mContext, ArrayList<Advogados> mCartao) {
         this.mContext = mContext;
         this.mCartao = mCartao;
     }
 
-    public RecyclerAdapter(Context mContext, String[] nomes, String[] estados, String[] cidades, String[] areas, String[] fotos) {
-        this.mContext = mContext;
-        this.nomes = nomes;
-        this.estados = estados;
-        this.cidades = cidades;
-        this.areas = areas;
-        this.fotos = fotos;
-    }
+  /*  List<String> nomes = new ArrayList<String>();
+    String[] estados;
+    String[] cidades;
+    String[] areas;
 
+
+    public RecyclerAdapter(Context mContextRecebido, String[] nomesRecebido, String[] estadosRecebido, String[] cidadesRecebido, String[] areasRecebido) {
+        mContext = mContextRecebido;
+        nomes.addAll(Arrays.asList(nomesRecebido));
+        estados = estadosRecebido;
+        cidades = cidadesRecebido;
+        areas = areasRecebido;
+    }*/
 
     @NonNull
     @Override
@@ -52,23 +52,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.imagemPerfil.setImageResource(mCartao.get(position).getImagem());
         holder.nomeAdvogado.setText(mCartao.get(position).getNome());
         holder.cidade.setText(mCartao.get(position).getCidade());
         holder.estado.setText(mCartao.get(position).getEstado());
-        holder.area_atuacao.setText(mCartao.get(position).getAreaAtuacao());
-        holder.imagemPerfil.setImageResource(mCartao.get(position).getFotoPerfil());
+        holder.area_atuacao.setText(mCartao.get(position).areaAtuacao);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Perfil_Advogados_Cli.class);
 
-                intent.putExtra("id", mCartao.get(position).getId());
+                intent.putExtra("imagem", mCartao.get(position).getImagem());
                 intent.putExtra("nome", mCartao.get(position).getNome());
                 intent.putExtra("cidade", mCartao.get(position).getCidade());
                 intent.putExtra("estado", mCartao.get(position).getEstado());
-                intent.putExtra("areaAtuacao", mCartao.get(position).getAreaAtuacao());
-                intent.putExtra("fotoPerfil", mCartao.get(position).getFotoPerfil());
+                intent.putExtra("area_atuacao", mCartao.get(position).getAreaAtuacao());
 
                 mContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }

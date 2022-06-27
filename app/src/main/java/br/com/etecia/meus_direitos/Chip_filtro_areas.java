@@ -1,9 +1,6 @@
 package br.com.etecia.meus_direitos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,8 +9,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.chip.Chip;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,15 @@ public class Chip_filtro_areas extends AppCompatActivity {
     Chip civil, consumidor, trabalhista, penal, empresarial, ambiental, ti, contratual, tributario;
     ArrayList<String> selectedChipData;
     Button enviar;
-    EditText bibliografia;
-    ArrayList<String> areaAtuacao = new ArrayList<>();
-    PerfilUsuario perfilUsuario = new PerfilUsuario();
+    EditText edtbibliografia;
+    List<String> areaAtuacao = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chip_filtro_areas);
 
-        DBHelper dbHelper = new DBHelper(this);
-        DB db = new DB(this);
+
 
         civil = findViewById(R.id.chipCivil);
         consumidor = findViewById(R.id.chipConsumidor);
@@ -47,7 +43,7 @@ public class Chip_filtro_areas extends AppCompatActivity {
         contratual = findViewById(R.id.chipContratual);
         tributario = findViewById(R.id.chipTributário);
 
-        bibliografia = findViewById(R.id.bibliografia);
+        edtbibliografia = findViewById(R.id.bibliografia);
         enviar = findViewById(R.id.btnEnviarAreas);
 
 
@@ -79,36 +75,43 @@ public class Chip_filtro_areas extends AppCompatActivity {
         tributario.setOnCheckedChangeListener(checkedChangeListener);
 
 
+        DBHelper db = new DBHelper(this);
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Bundle extras = getIntent().getExtras();
-                String nome = extras.getString("nome");
-                String email = extras.getString("email");
-                String telefone = extras.getString("telefone");
-                String estado = extras.getString("estado");
-                String cidade = extras.getString("cidade");
-                String registroOAB = extras.getString("registroOAB");
-                String senha = extras.getString("senha");
+                DBHelper db = new DBHelper(getApplicationContext());
+                PerfilUsuario perfilUsuario = new PerfilUsuario();
 
+                String areas = areaAtuacao.toString();
+                String bibliografia = edtbibliografia.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+                if (TextUtils.isEmpty(areas) || TextUtils.isEmpty(bibliografia)) {
 
-                perfilUsuario.setNome(nome);
-                perfilUsuario.setEmail(email);
-                perfilUsuario.setTelefone(Integer.valueOf(telefone));
-                perfilUsuario.setEstado(estado);
-                perfilUsuario.setCidade(cidade);
-                perfilUsuario.setNumeroOAB(registroOAB);
-                perfilUsuario.setSenha(senha);
-                perfilUsuario.setAreaAtuacao(areaAtuacao.toString());
-                perfilUsuario.setBibliografia(bibliografia.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Escolha uma area de atuação e escreva uma bibliografia", Toast.LENGTH_SHORT).show();
 
-                db.atualizar(perfilUsuario);
+                } else {
 
-                startActivity(intent);
-                finish();
+                    PerfilUsuario adv = new PerfilUsuario();
+
+                    Intent intent = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+
+                    adv.setAreaAtuacao(areas);
+                    adv.setBibliografia(bibliografia);
+                    db.areasEbibliografia(perfilUsuario);
+                    db.close();
+
+                    System.out.println(perfilUsuario.getAreaAtuacao());
+                    System.out.println(perfilUsuario.getBibliografia());
+
+                    Toast.makeText(getApplicationContext(), "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
+
+                    System.out.println(areas);
+                    System.out.println(bibliografia);
+                    startActivity(intent);
+                    finish();
+
+                }
             }
         });
     }

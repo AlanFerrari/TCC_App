@@ -24,6 +24,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import br.com.etecia.meus_direitos.objetos.PerfilUsuario;
 
@@ -36,20 +38,14 @@ public class EditarPerfil extends AppCompatActivity {
     ArrayList<String> selectedChipData;
     Button alterarPerfil;
     Spinner estadoSpinner, cidadeSpinner;
+    PerfilUsuario perfilUsuario = new PerfilUsuario();
 
-    DB db;
-    ArrayList<String> areaAtuacao = new ArrayList<>();
+    List<String> areaAtuacao = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
-
-        db = new DB(this);
-        DBHelper DB = new DBHelper(this);
-        Intent intent = getIntent();
-
-        PerfilUsuario perfilUsuario = (PerfilUsuario) intent.getSerializableExtra("perfilUsuario");
 
         voltar = findViewById(R.id.imgVoltar);
         fotoPerfil = findViewById(R.id.fotoPerfil);
@@ -64,14 +60,17 @@ public class EditarPerfil extends AppCompatActivity {
         alterarPerfil = findViewById(R.id.AlterarPerfil);
 
         //recebendo dados
-        edtnomeAdvogado.setText(perfilUsuario.getNome());
-        edtemail.setText(perfilUsuario.getEmail());
-        edttelefone.setText(perfilUsuario.getTelefone());
-        areaAtuacao.add(perfilUsuario.getAreaAtuacao());
-        estadoSpinner.setSelection(Integer.parseInt(perfilUsuario.getEstado()));
-        cidadeSpinner.setSelection(Integer.parseInt(perfilUsuario.getCidade()));
-        edtregistroOAB.setText(perfilUsuario.getNumeroOAB());
-        edtbibliografia.setText(perfilUsuario.getBibliografia());
+
+        Intent intent = getIntent();
+
+        edtnomeAdvogado.setText(intent.getStringExtra("nome"));
+        edtemail.setText(intent.getStringExtra("email"));
+        edttelefone.setText(intent.getStringExtra("telefone"));
+       // estadoSpinner.setSelection(intent.getStringExtra("estado"));
+       // cidadeSpinner.setSelection(Integer.parseInt(intent.getStringExtra("cidade")));
+        edtregistroOAB.setText(intent.getStringExtra("numeroOAB"));
+        edtbibliografia.setText(intent.getStringExtra("bibliografia"));
+
 
         //instanciando chips das areas de atuação
         civil = findViewById(R.id.chipCivil);
@@ -85,6 +84,8 @@ public class EditarPerfil extends AppCompatActivity {
         tributario = findViewById(R.id.chipTributário);
 
         selectedChipData = new ArrayList<>();
+        areaAtuacao = Collections.singletonList(perfilUsuario.getAreaAtuacao());
+        List areas = new ArrayList<>();
 
         CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -93,12 +94,12 @@ public class EditarPerfil extends AppCompatActivity {
                 if (isChecked) {
                     selectedChipData.add(String.valueOf(areaAtuacao));
                     selectedChipData.add(buttonView.getText().toString());
-                    areaAtuacao.add(String.valueOf(selectedChipData));
+                    areas.add(String.valueOf(selectedChipData));
 
                 } else {
                     selectedChipData.remove(String.valueOf(areaAtuacao));
                     selectedChipData.remove(buttonView.getText().toString());
-                    areaAtuacao.remove(String.valueOf(selectedChipData));
+                    areas.remove(String.valueOf(selectedChipData));
                 }
             }
         };
@@ -125,31 +126,27 @@ public class EditarPerfil extends AppCompatActivity {
         alterarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DB db = new DB(getApplicationContext());
+
+                Intent intent1 = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+                DBHelper db = new DBHelper(getApplicationContext());
+                PerfilUsuario perfilUsuario = new PerfilUsuario();
 
                 perfilUsuario.setNome(edtnomeAdvogado.getText().toString());
                 perfilUsuario.setEmail(edtemail.getText().toString());
-                perfilUsuario.setTelefone(Integer.valueOf(edttelefone.getText().toString()));
+                perfilUsuario.setTelefone(edttelefone.getText().toString());
                 perfilUsuario.setEstado(estadoSpinner.getSelectedItem().toString());
                 perfilUsuario.setCidade(cidadeSpinner.getSelectedItem().toString());
                 perfilUsuario.setNumeroOAB(edtregistroOAB.getText().toString());
-                perfilUsuario.setAreaAtuacao(areaAtuacao.toString());
+                perfilUsuario.setAreaAtuacao(areas.toString());
                 perfilUsuario.setBibliografia(edtbibliografia.getText().toString());
+                db.inserirDados(perfilUsuario);
+                db.close();
 
-                if (db.atualizar(perfilUsuario)){
+                Toast.makeText(EditarPerfil.this, "Alteração feita com sucesso", Toast.LENGTH_SHORT).show();
 
-                    Intent intent1 = new Intent(getApplicationContext(), PerfilAdvogado_Adv.class);
+                startActivity(intent1);
+                finish();
 
-                    intent1.putExtra("perfilUsuario", String.valueOf(perfilUsuario));
-
-                    Toast.makeText(EditarPerfil.this, "Alteração feita com sucesso", Toast.LENGTH_SHORT).show();
-
-                    startActivity(intent1);
-                    finish();
-
-                } else {
-                    Toast.makeText(EditarPerfil.this, "Erro ao atualizar os dados", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
